@@ -1,0 +1,23 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+<br /><br />
+
+<center><h4 style="margin-top:2%;"><strong>Found Result for <font color="green">{{ formsearch.searchterm.data }}</font></strong></h4></center><br />
+{% for result in (searchresult) %}
+	
+			<center>
+			<div class="callout callout-info" style="max-width: 55rem; box-shadow: 3px 5px 3px grey;">
+				<a href="{{ url_for('projects.createvisualization', project_id=result.id) }}" style="text-decoration: none;">
+				  <h5 class="text-info"><b>{{ result.pname }}</b></h5>
+				  <h6 class="text-info">{{ result.ptype }}</h6>
+				  <h6 class="text-muted">Created On: {{ result.date_posted.strftime('%Y-%m-%d') }}</h6>
+				</a>
+
+				{% if adminval.admincheck == 'Yes' or adminval.admincheck == 'Super' %}
+	            	<div class="mb-4"><a href="#" style="text-decoration: none; float: right;" class="text-dark"><h6>{{ result.user.username }}</h6></a></div>
+	          	{% endif %}
+			</div>
+
+{% endfor %}
+
+{% endblock content %}

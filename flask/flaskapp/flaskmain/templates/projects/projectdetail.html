@@ -1,0 +1,201 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+
+
+    {% if project.pstatus == 'Cancelled' %}
+        <center><div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -3%; margin-right: 45%;">
+          <center><font size='1'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+        </div></center>
+    {% endif %}
+    <section class="content">
+    <h4 class="project-name mt-3 text-center"><b>{{ project.pname }}</b></h4>
+    <br />
+    <center><div class="btn-group btn-group-toggle">
+      <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light" title="New Visualization"><i class="fa fa-upload mr-2"></i> New Visualization</a>
+      <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Data Cleaning</a>
+      <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+      <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+      <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light active" title="Support"><i class="fa fa-comments mr-2"></i>Project Details</a></font>
+      <!--  <font size="4" class="ml-5 mt-1">
+          <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+          <a href="#">
+            <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+          </a></font> -->
+<<<<<<< HEAD
+          <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-hover dropdown-icon ml-3" data-toggle="dropdown" title="Remove Duplicates"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</button>
+            <div class="dropdown-menu" role="menu">
+              <a class="dropdown-item bg-warning" href="{{ url_for('projects.project_update', project_id=project.id) }}" title="Edit Project"><i class="fas fa-edit mr-2" aria-hidden="true" title="Edit Project"></i> Edit Project</a>
+              <a class="dropdown-item bg-danger" href="#" title="Delete Project" data-target="#dataspoint_modal" data-toggle="modal" title="Delete Project"><i class="fas fa-trash-alt mr-2" aria-hidden="true"></i> Delete Project</a>
+            </div>
+=======
+          <button type="button" class="btn btn-light btn-sm dropdown-toggle dropdown-hover dropdown-icon ml-3 " data-toggle="dropdown" title="Remove Duplicates" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ url_for('static', filename='assets/images/icon/settings.svg') }}"> Settings</button>
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item" href="{{ url_for('projects.project_update', project_id=project.id) }}" title="Edit Project">
+                 <img src="{{ url_for('static', filename='assets/images/icon/edit.svg') }}"> Edit Project</a>
+            <a class="dropdown-item" href="#" title="Delete Project" data-target="#dataspoint_modal" data-toggle="modal" title="Delete Project">
+                 <img src="{{ url_for('static', filename='assets/images/icon/delete.svg') }}"> Delete Project</a>
+          </div>
+>>>>>>> 07a6581db0f02df53727fbd0bd1aa22d2c1f1eba
+  </div></center>
+  <div class="card-info card-outline"></div>
+    <div class="p-2">
+    <div class="card-body">
+   <h4>Project Details</h4><br />
+        <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+              <div class="row">
+                <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <span class="info-box-text text-center text-muted">Estimated budget</span>
+                      <span class="info-box-number text-center text-muted mb-0">${{ project.estbudget }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <span class="info-box-text text-center text-muted">Total amount spent</span>
+                      <span class="info-box-number text-center text-muted mb-0">${{ project.totalbudget }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+
+                      <span class="info-box-text text-center text-muted">Project Status</span>
+                      {% if project.pstatus == 'In Review' %}
+                        <span class="info-box-number text-center text-muted mb-0"><font class="text-info">{{ project.pstatus }}</font><span>
+                      {% elif project.pstatus == 'In Progress' %}
+                        <span class="info-box-number text-warning text-center text-muted mb-0"><font class="text-warning">{{ project.pstatus }}</font> <span>
+                      {% elif project.pstatus == 'Completed' %}
+                        <span class="info-box-number text-warning text-center text-muted mb-0"><font class="text-success">{{ project.pstatus }}</font> <span>
+                      {% else %}
+                        <span class="info-box-number text-success text-center text-muted mb-0"><font class="text-danger">{{ project.pstatus }} </font><span>
+                      {% endif %}   
+                    </div>
+                  </div>
+                </div>
+              </div>
+    <p class="text-muted">{{ project.pmessage|safe }}</p>
+    <br>
+    <div class="text-muted">
+      <p class="text-sm">Project Name
+        <b class="d-block">{{ project.pname }}</b>
+      </p>
+      <p class="text-sm">Project Type
+        <b class="d-block">{{ project.ptype }}</b></p>
+
+        <p><b class="d-block">Created On: {{ project.date_posted.strftime('%Y-%m-%d, %H:%M %p') }}</b>
+        {% if adminval.admincheck == 'Yes' or adminval.admincheck == 'Super' %}
+          <b class="d-block">Created by: {{ project.user.username }}</b>
+        {% endif %}
+      </p>
+      
+      
+      </div>
+
+    </div>
+<br />
+<div class="row p-2">
+     {% for chatval in messageuser %}
+
+         <div class="post">
+        {% if chatval.admincheck == 'Yes' or chatval.admincheck == 'Super' %}
+
+
+          <div class="direct-chat-msg">
+                    <div class="direct-chat-infos clearfix">
+                      <span class="direct-chat-name float-left">{{ chatval.username }}<font size="1" class="text-secondary" > Admin</font></span>
+                      <span class="direct-chat-timestamp float-right">{{ chatval.timeposted.strftime('%B %d %Y') }}, {{ chatval.timeposted.strftime('%I:%M %p') }}</span>
+                    </div>
+                    <!-- /.direct-chat-infos -->
+                    <img class="direct-chat-img" src="/static/images/{{ chatval.userimage }}" alt="Message User Image">
+                    <!-- /.direct-chat-img -->
+                    <div class="direct-chat-text bg-secondary">
+                     {{ chatval.usermessage|safe }}
+                    </div>
+                    <!-- /.direct-chat-text -->
+                  </div>
+        <hr />
+        {% else %}
+        
+
+        <div class="direct-chat-msg right">
+                    <div class="direct-chat-infos clearfix">
+                      <span class="direct-chat-name float-right">{{ chatval.username }}</span>
+                      <span class="direct-chat-timestamp float-left">{{ chatval.timeposted.strftime('%B %d %Y') }}, {{ chatval.timeposted.strftime('%I:%M %p') }}</span>
+                    </div>
+                    <!-- /.direct-chat-infos -->
+                    <img class="direct-chat-img" src="/static/images/{{ chatval.userimage }}" alt="Message User Image">
+                    <!-- /.direct-chat-img -->
+                    <div class="direct-chat-text bg-light text-right">
+                      {{ chatval.usermessage|safe }}
+                    </div>
+                    <!-- /.direct-chat-text -->
+                  </div>
+                  <!-- /.direct-chat-msg -->
+                </div>
+     {% endif %}
+     {% endfor %}
+    
+
+ </div> 
+</div>
+</div>
+
+</section>
+<!--<section class="content">-->
+<!--   <form method="POST">-->
+<!--      {{ chatform.hidden_tag() }}-->
+<!--      <div class="form-group ml-5 p-4">-->
+<!--        <label for="inputDescription">Send us your query</label>-->
+<!--          {{ chatform.chatinput(class="form-control col-md-6", type = "textarea", rows="2", width="400px", id= "inputDescription")  }}-->
+
+<!--        <button class="btn btn-info mt-3" type="submit">Send Message</button>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--</section>   -->
+  </div>
+</div>
+   <div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+
+<script>
+$(document).ready(function() {
+   $('#inputDescription').summernote({
+        placeholder: 'Please let us know if you have any query.',
+        codemirror: {
+        theme: 'monokai'},
+          toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear', 'fontsize']],
+          ['color', ['color']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen']],
+        ]
+      });
+});
+</script>
+
+{% endblock content %}

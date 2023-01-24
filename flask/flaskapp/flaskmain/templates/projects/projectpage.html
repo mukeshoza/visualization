@@ -1,0 +1,82 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+
+    <section class="content create-project-content">
+      <div class="row">
+          <div class="card">
+            <div class="card-header">
+              <center><h3>{{ legend }}</h3></center>
+            </div>
+            
+              <div class="card-body">
+              <form method="POST" action="">
+                {{ form.hidden_tag() }}
+              <div class="form-group mb-3">
+                {{ form.pname.label(class="form-control-label") }}<font color="red"> *</font>
+                {{ form.pname(class="form-control", placeholder="Provide name for your project", title="Please enter your project name", required="true") }}
+                 
+              </div>
+
+              <div class="form-group mb-3">
+                {% if pdata %}
+                  {{ form.ptype.label(class="form-control-label") }}
+                  <select class="form-control custom-select" title="This is a required field" name="ptype">
+                    <option value="{{ pdata }}" selected>{{ pdata }}</option>
+                  </select>
+
+                {% else %}
+                  {{ form.ptype.label(class="form-control-label") }}<font color="red"> *</font>
+                  <select class="form-control custom-select" title="Select your project type" name="ptype" required>
+                    <option selected disabled>Select Project Type</option>
+                     {% for val in choices %}
+                        <option value="{{ val }}">{{ val }}</option>
+                     {% endfor %}
+                  </select>
+                {% endif %}
+              </div>
+              <div class="form-group mb-3">
+                {{ form.pmessage.label(class="form-control-label") }}<font color="red"> *</font>
+                {{ form.pmessage(class="form-control textarea", placeholder="Any Special Instructions...", rows="3", title="Any Special Instructions", id= "textarea") }}
+              </div>
+            {% if adminval.admincheck == 'Yes' or adminval.admincheck == 'Super' %}
+              <div class="form-group mb-3">
+                {% if prostatus %}
+                  {{ form.pstatus.label(class="form-control-label") }} <b>(for admin only)</b>
+                  <select class="form-control custom-select"  name="pstatus" title="Project Status">
+                    <option value="{{ prostatus }}" selected disabled>{{ prostatus }} - Current Status</option>
+                   {% for values in status %}
+                      <option value="{{ values }}">{{ values }}</option>
+                   {% endfor %}
+                  </select>
+                {% else %}
+                {{ form.pstatus.label(class="form-control-label") }} <b>(for admin only)</b>
+                  <select class="form-control custom-select"  name="pstatus">
+                   {% for values in status %}
+                      <option value="{{ values }}">{{ values }}</option>
+                   {% endfor %}
+                  </select>
+                {% endif %}
+              </div>
+             {% endif %}
+              <h5>Budget Info</h5>
+              <div class="form-group mb-3">
+                 {{ form.estbudget.label(class="form-control-label") }}
+                 {{ form.estbudget(type="Number", class="form-control", placeholder="Your Estimated Budget", id="inputEstimatedBudget", title="Your estimated budget for overall project") }}
+              </div>
+             {% if adminval.admincheck == 'Yes' or adminval.admincheck == 'Super' %}
+                <div class="form-group mb-3">
+                  {{ form.totalbudget.label(class="form-control-label") }}
+                   {{ form.totalbudget(type="Number", class="form-control", placeholder="Your Total Budget", title="Your total budget for overall project") }}
+                </div>
+              {% endif %}
+              <div class="form-row mb-3">
+              <div class="col-md-12 mb-1 p-1 mt-3">
+                {{ form.submit(class="btn btn-info col-md-12 mb-2", type="submit") }}
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </section>
+
+{% endblock content %}

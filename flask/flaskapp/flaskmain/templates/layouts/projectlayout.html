@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+   {% if title %}
+        <title>{{ title }} DatasPoint | Data Visualization | Parsing | Entry</title>
+      {% else %}
+        <title>DatasPoint | Data Visualization | Parsing | Entry</title>
+    {% endif %}
+
+  <link rel='shortcut icon' type='image/icon' href="{{ url_for('static', filename='images/logonew.png') }}">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://code.jquery.com//resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/summernote/summernote-bs4.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.cssplugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/pace-progress/themes/black/pace-theme-flat-top.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
+
+
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <style type="text/css">
+  .dataTables_filter {
+   float: right;
+  }
+
+  @media only screen and (max-width: 600px) {
+  .dataTables_filter {
+    float: left;
+  }
+  </style>
+  <style type="text/css">
+    <style>
+    .ui-front { 
+    position: absolute; 
+    cursor: pointer;
+    z-index:30 !important;
+} 
+
+.float{
+  position:fixed;
+  z-index: 999999;
+  width:60px;
+  height:60px;
+  bottom:40px;
+  right:40px;
+  background-color:orange;
+  color:#FFF;
+  border-radius:50px;
+  text-align:center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+  margin-top:16px;
+}
+
+/*.wrapper{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  text-align:center;
+  transform: translateX(-50%);
+}
+*/
+.spanner{
+  position:absolute;
+  top: 50%;
+  left: 0;
+  background: #2a2a2a55;
+  width: 100%;
+  display:block;
+  text-align:center;
+  height: 100%;
+  color: #FFF;
+  transform: translateY(-50%);
+  z-index: 1000;
+  visibility: hidden;
+}
+
+.over{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  visibility: hidden;
+}
+
+.loader,
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+.loader {
+  color: #ffffff;
+  font-size: 10px;
+  margin: 80px auto;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
+}
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
+.show{
+  visibility: visible;
+}
+
+.spanner, .overlay{
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.spanner.show, .overlay.show {
+  opacity: 1
+}
+</style>
+</head>
+<body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-collapse hold-transition
+pace-info">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{ url_for('users.dashboard') }}" class="nav-link">Dashboard</a>
+      </li>
+    </ul>
+
+    <!-- SEARCH FORM -->
+    <form class="form-inline ml-3" method="POST" action="{{ url_for('main.search') }}">
+      {{ formsearch.hidden_tag() }} 
+      <div class="input-group input-group-sm">
+      <div class="ui-widget">
+        <div class="ui-front">
+          {{ formsearch.searchterm(class="form-control form-control-navbar", type="search", placeholder="search project", id="tags", title='search in the whole app') }}
+        </div>
+      </div>
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-envelope mr-2"></i> 4 new messages
+            <span class="float-right text-muted text-sm">3 mins</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-users mr-2"></i> 8 friend requests
+            <span class="float-right text-muted text-sm">12 hours</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> 3 new reports
+            <span class="float-right text-muted text-sm">2 days</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+     <!--  <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i
+            class="fas fa-th-large"></i></a>
+      </li> -->
+
+      <li class="nav-item dropdown user-menu">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+          <img src="{{ image_file }}" class="user-image img-circle elevation-2" alt="User Image">
+          <span class="d-none d-md-inline">{{ current_user.username }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <!-- User image -->
+          <li class="user-header bg-info">
+            <img src="{{ image_file }}" class="img-circle elevation-2" alt="User Image">
+
+            <p>
+              {{ current_user.username }}
+              <small>Member since {{ current_user.user_created.strftime('%B %d, %Y ') }}</small>
+            </p>
+          </li>
+          {% if adminval.admincheck == 'Yes' %}
+            <center><a class="dropdown-item" href="#"><font color="#424242" size="2"><strong>Admin User</strong></font></a></center>
+            <div class="dropdown-divider"></div>
+          {% elif adminval.admincheck == 'Super' %}
+            <center><a class="dropdown-item" href="#"><font color="#424242" size="2"><strong>Super Admin</strong></font></a></center>
+            <div class="dropdown-divider"></div>
+          {% endif %}
+          <!-- Menu Body -->
+          <li class="user-body">
+            <div class="row">
+              <div class="col-4 text-center">
+                <a href="{{ url_for('users.account') }}" title="User Profile">Profile</a>
+              </div>
+              <div class="col-4 text-center">
+                <a href="#">Teams</a>
+              </div>
+              <div class="col-4 text-center">
+                <a href="{{ url_for('users.logout') }}" title="Logout">Logout</a>
+              </div>
+            </div>
+            <!-- /.row -->
+          </li>
+
+  </ul>
+  </nav>
+  
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ url_for('users.dashboard') }}" class="brand-link">
+      <img src="{{ url_for('static', filename='images/logonew.png') }}" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">DatasPoint</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+     <!--  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ image_file }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">{{ current_user.username }}</a>
+        </div>
+      </div> -->
+      <br />
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column text-sm" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="{{ url_for('users.dashboard') }}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+               Dashboard
+              </p>
+            </a>
+          </li>
+           <li class="nav-item">
+            <a href="{{ url_for('projects.projectsall') }}" class="nav-link">
+             <i class="nav-icon fas fa-tasks"></i>
+              <p>
+               Projects
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user-friends"></i>
+              <p>
+               Teams
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ url_for('users.account') }}" class="nav-link">
+              <i class="nav-icon fas fa-id-card"></i>
+              <p>
+               Profile
+              </p>
+            </a>
+          </li>
+
+          {% if adminval.admincheck == 'Super' %}
+            
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+               Settings
+              </p>
+            </a>
+          </li>
+
+          {% endif %}
+
+          <li class="nav-item">
+            <a href="{{ url_for('users.logout') }}" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+               Logout
+              </p>
+            </a>
+          </li>
+          <br />
+           <div class="dropdown-divider"></div>
+           <br />
+
+
+          <li class="nav-item">
+            <a href="{{ url_for('projects.project') }}" class="nav-link" style="text-align: left;">
+              <font color="#f7665c"><i class="nav-icon fas fa-plus"></i>
+              <p>
+               <strong>Add Project</strong>
+              </p></font>
+            </a>
+          </li>
+        </ul>
+        
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark"></h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+              <!-- <li class="breadcrumb-item active">Starter Page</li> -->
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+
+    <!-- /.content-header -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <center><div style="width: 40%;">
+              <div class="alert alert-{{ category }} fade show">
+                <span class="alert-text">{{ message }}</span>
+                <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close"> -->
+                <!-- <span aria-hidden="true">&times;</span></button> -->
+              </div>
+            </div></center>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+
+    <aside class="control-sidebar control-sidebar-dark" style="overflow-y: scroll; width: 25%; height: 100%; position: fixed; background-color: white; box-shadow: 0px 4px 8px 0px grey;">
+      <div class="card-tools" style="float: right;">
+        <button type="button" class="btn btn-tool"  data-widget="control-sidebar" data-slide="true"><i class="fas fa-times mr-2 fas-2x"></i></button>
+
+      </div>
+      <div class="row p-3">
+        <div class="col-12">
+          <br />
+            {% if project.pstatus == 'In Review' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-info" style="border-radius: 4px; float: left; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% elif project.pstatus == 'In Progress' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-warning" style="border-radius: 4px; float: left; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-spinner"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% elif project.pstatus == 'Completed' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-success" style="border-radius: 4px; float: left; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-th-list"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% else %}
+                  <div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: left; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-window-close"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% endif %}
+              <br />
+              <h6 class="text-info text-center"><i class="fas fa-comments mr-2"></i> View Conversation History</h6>
+          <hr />
+           {% for chatval in messageuser %}
+           <br />
+              <div class="mr-3 text-secondary" style="text-align: right;"><font size="2">{{ chatval.timeposted.strftime('%B %d %Y') }}</font></div>
+               <div class="post">
+              {% if chatval.admincheck == 'Yes' or chatval.admincheck == 'Super' %}
+                <div class="user-block" style="margin-top: -15%;">
+                <div class="p-1" style="font-size: 22px; width: 45px; height:45px; border-radius: 4px; color: white; text-align: center;"><b> <img class="direct-chat-img" src="/static/images/{{ chatval.userimage }}" alt="Message User Image"></b></div>
+                  <span class="username" style="margin-top: -12%;">
+                    <a href="#"><font color="#000">{{ chatval.username }}</font><font size="1" class="text-secondary" > Admin</font></a>
+                  </span>
+                  <span class="description">{{ chatval.timeposted.strftime('%I:%M %p') }}</span>
+                </div>
+                <p>
+                  <div class="ml-5 mb-5">{{ chatval.usermessage|safe }}</div>
+                </p>
+              <hr />
+              {% else %}
+                <div class="user-block" style="margin-top: -15%;">
+                  <div class="p-1" style="font-size: 22px; width: 45px; height:45px; border-radius: 4px; color: white; text-align: center;"><b> <img class="direct-chat-img" src="/static/images/{{ chatval.userimage }}" alt="Message User Image"></b></div>
+                  <span class="username" style="margin-top: -12%;">
+                    <a href="#"><font color="#000">{{ chatval.username }}</font><font size="1" class="text-secondary" > {{ admin }}</font></a>
+                  </span>
+                  <span class="description">{{ chatval.timeposted.strftime('%I:%M %p') }}</span>
+                </div>
+
+                <p>
+                  <div class="ml-5 mb-5">{{ chatval.usermessage|safe }}</div>
+                </p>
+              </div>
+           {% endif %}
+           {% endfor %}
+    <br />
+    </div>
+   </div> 
+  </div>
+  </div>
+  </aside>
+
+<script>$("#sortable").sortable();</script>
+<script>
+$(document).ready(function() {
+   $('#inputDescription').summernote({
+        placeholder: 'send us message',
+          toolbar: [
+          ['style', ['style']],
+          ['font', []],
+          ['color', ['color']],
+          ['table', []],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['']],
+        ]
+      });
+});
+</script>
+<script type="text/javascript">
+  $('#contactForm').submit(function () {
+   sendContactForm();
+   return false;
+  });
+</script>
+
+<script type="text/javascript">
+          const $dropdown = $(".dropdown");
+          const $dropdownToggle = $(".dropdown-toggle");
+          const $dropdownMenu = $(".dropdown-menu");
+          const showClass = "show";
+           
+          $(window).on("load resize", function() {
+            if (this.matchMedia("(min-width: 768px)").matches) {
+              $dropdown.hover(
+                function() {
+                  const $this = $(this);
+                  $this.addClass(showClass);
+                  $this.find($dropdownToggle).attr("aria-expanded", "true");
+                  $this.find($dropdownMenu).addClass(showClass);
+                },
+                function() {
+                  const $this = $(this);
+                  $this.removeClass(showClass);
+                  $this.find($dropdownToggle).attr("aria-expanded", "false");
+                  $this.find($dropdownMenu).removeClass(showClass);
+                }
+              );
+            } else {
+              $dropdown.off("mouseenter mouseleave");
+            }
+          });
+</script>
+
+<script>
+  $( function() {
+    var availableTags = {{ products|tojson|safe }};
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+
+<script type="text/javascript">
+  window.setTimeout(function() {
+    $(".alert").fadeTo(1600, 0).slideUp(1600, function(){
+        $(this).remove(); 
+    });
+}, 2000);
+</script>
+
+
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ url_for('static', filename='dist/js/adminlte.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/jquery-validation/additional-methods.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/pace-progress/pace.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
+
+
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+
+<script>
+  $(function () {
+    $("#dataspointtable").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#dataspointtable1').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+      "responsive": false,
+      "scrollX": true,
+      "scrollY":'50vh',
+      "deferRender": true,
+    });
+  });
+</script>
+<script type="text/javascript">
+  $("#myval").val("{{ valgraph }}");
+</script>
+
+<script type="text/javascript">
+    $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+  // $.validator.setDefaults({
+  //   submitHandler: function () {
+  //      $("input[type='submit']").click(function(){
+  //      $("div.spanner").addClass("show");
+  //      $("div.over").addClass("show");
+  //     });
+  //   }
+  // });
+  $('#quickForm').validate({
+    // rules: {
+    //   email: {
+    //     required: true,
+    //     email: true,
+    //   },
+    //   password: {
+    //     required: true,
+    //     minlength: 5
+    //   },
+    //   terms: {
+    //     required: true
+    //   },
+    // },
+    // messages: {
+    //   email: {
+    //     required: "Please enter a email address",
+    //     email: "Please enter a vaild email address"
+    //   },
+    //   password: {
+    //     required: "Please provide a password",
+    //     minlength: "Your password must be at least 5 characters long"
+    //   },
+    //   terms: "Please accept our terms"
+    // },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+});
+</script>
+
+<script>
+  $(function () {
+     
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    });
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+  })
+</script>
+
+</body>
+</html>

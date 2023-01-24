@@ -1,0 +1,127 @@
+{% extends "layouts/projectlayout.html" %}
+{% block content %}
+
+  
+
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-1">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Data Source</h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </div>
+
+<h4 class="text-success text-center"><b>{{ project.pname }}</b></h4>
+  <br />
+  {% if project.pstatus == 'Cancelled' %}
+        <center><div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -3%; margin-right: 45%;">
+          <center><font size='1'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+        </div></center>
+    {% endif %}
+<section class="content">
+  <!-- <div style="margin-left: 85%; margin-top: -1.5%;">
+  <font size="4">
+  <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+  <a href="#">
+    <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+  </a></font>
+</div> -->
+  
+  <center><div class="btn-group btn-group-toggle">
+    <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light active" title="New Visualization"><i class="fa fa-upload mr-2"></i> Data Source</a>
+    <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+    <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+    <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Dataset</a>
+    <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light" title="Support"><i class="fa fa-comments mr-2"></i> Support</a></font>
+   <!--  <font size="4" class="ml-5 mt-1">
+      <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+      <a href="#">
+        <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+      </a></font> -->
+    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-hover dropdown-icon ml-3" data-toggle="dropdown" title="Remove Duplicates"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</button>
+            <div class="dropdown-menu" role="menu">
+              <a class="dropdown-item bg-warning" href="{{ url_for('projects.project_update', project_id=project.id) }}" title="Edit Project"><i class="fas fa-edit mr-2" aria-hidden="true" title="Edit Project"></i> Edit Project</a>
+              <a class="dropdown-item bg-danger" href="#" title="Delete Project" data-target="#dataspoint_modal" data-toggle="modal" title="Delete Project"><i class="fas fa-trash-alt mr-2" aria-hidden="true"></i> Delete Project</a>
+              <a class="dropdown-item" href="#" title="Edit Project"><i class="fas fa-money-check-alt text-secondary mr-2" aria-hidden="true" title="Edit Project"></i> Invoices</a>
+            </div>
+  </div></center>
+   <a class="float" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+     <i class="fa fa-envelope fa-2x my-float text-light" aria-hidden="true" title="Support"></i>
+    </a>
+
+  <div class="card card-info card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              Upload File
+            </h3>
+          </div>
+          <div class="card-body">
+            <h5>Select Data Source</h5>
+            <br />
+            <div class="row">
+              <div class="col-5 col-sm-3">
+                <div class="btn-group-vertical bg-light" style="border-right: thick solid grey">
+                  <a type="button" class="btn btn-light text-info mb-2" href="{{ url_for('projects.visualization', project_id=project.id) }}">CSV</a>
+                  <a type="button" class="btn btn-light text-info mb-2" href="#">JSON Lines</a>
+                  <a type="button" class="btn btn-light text-info mb-2" href="#">JSON</a>
+                  <a type="button" class="btn btn-light text-info active mb-2" href="{{ url_for('projects.mysql', project_id=project.id) }}">MYSQL</a>
+                  <a type="button" class="btn btn-light text-info mb-2" href="#">MONGODB</a>
+              </div>
+              </div>
+              
+                <div class="col-7 col-sm-9" style="margin-top: -3%;">
+                       <form method="POST" action="" enctype="multipart/form-data" id="quickForm">
+                        {{ mysqlconnect.hidden_tag() }}
+                        <div class="card-body card-info card-outline col-md-9">
+                            <label>Server <font color="red">*</font></label>
+                            <input class="form-control col-md-6 mb-2" type="text" name="hostname", title="Hostname", placeholder="Server Name" required>
+                            
+                            <label>Port</label>
+                            <input class="form-control col-md-6 mb-2" type="text" name="port", title="Port" value="3306">
+
+                            <label>Databasename <font color="red">*</font></label>
+                            <input class="form-control col-md-6 mb-2" type="text" name="databasename", title="Databasename" placeholder="Databasename" required>
+                            <hr />
+                            <h6 class="text-muted mb-3"><b>Provide credentials to sign in to your account</b></h6>
+                            <label>Username <font color="red">*</font></label>
+                            <input class="form-control col-md-6 mb-2" type="text" name="username", title="Username" placeholder="Username" required>
+
+                            <label>Password <font color="red">*</font></label>
+                            <input class="form-control col-md-6 mb-4" type="password" name="password", title="Password" placeholder="Password" required>
+
+                            {{ mysqlconnect.submit(class="btn btn-info col-md-2 mb-3") }}
+                        </div>
+                      </form>
+                    </div>
+            </section>
+
+      
+   <div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+      </div>
+    </div>
+<!-- end-->
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,39 @@
+{% extends "formlayout.html" %}
+{% block content %}
+
+    <div class="divform_right" style="margin-top: 8%;">
+    <center><img src="{{ url_for('static', filename='images/logonew.png') }}" width="80" height="70">
+    <font color="#380101"><h4>dataspoint</h4></font></center><br />
+    <font color="#6cd9f5"><h4><strong>Login</strong> and start your journey with us.</h4><br />
+        <form class="needs-validation" novalidate method="POST" action="">
+              {{ form.hidden_tag() }}
+            
+                  <div class="form-group" style="box-shadow: 0px 4px #c9c9c9;margin-top: -1%;">
+                      {{ form.email.label(class="form-control-label") }}<font color="red"> *</font>
+                       {{ form.email(type="email", class="form-control", placeholder="youremail@mail.com", id="validationCustom03", title="Please enter registered email address") }}
+
+                        <div class="invalid-feedback">
+                          Please provide your valid email.
+                        </div>
+                  </div>
+                  <div class="form-group" style="box-shadow: 0px 4px #c9c9c9;margin-top: -1%;">
+                        {{ form.password.label(class="form-control-label") }}<font color="red"> *</font>
+                        {{ form.password(class="form-control", placeholder="Password", title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 characters") }}
+                          <div class="invalid-feedback">
+                            Must contain at least one number and one uppercase and lowercase letter, and at least 8 characters
+                          </div>
+                  </div>
+                  <div class="custom-control custom-control-alternative custom-checkbox">
+                    <!-- <input class="custom-control-input" id=" customCheckLogin" type="checkbox"> -->
+                    {{form.remember(class="custom-control-input", id=" customCheckLogin", type="checkbox")}}
+                    <label class="custom-control-label" for=" customCheckLogin">
+                    <span class="text-muted">{{form.remember.label}}</span></label>
+            </div><br />
+                    {{ form.submit(class="btn btn-info btn-lg btn-block") }}
+        </form>
+        
+        <hr />
+        <div class="text-muted">Forgot Password? <a class="ml-2 text-info" href="{{ url_for('users.reset_request') }}">Reset Password</a></div>
+        <div class="text-muted">Need to create a new account? <a class="ml-2 text-info" href="{{ url_for('users.register') }}">Sign Up</a></div>
+      </div>
+{% endblock content %}

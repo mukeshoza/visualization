@@ -1,0 +1,13 @@
+flask
+flask_login
+flask_wtf
+wtforms
+datetime
+pathlib
+numpy
+pandas
+dask
+pymongo
+werkzeug
+flask_mail
+sqlalchemy

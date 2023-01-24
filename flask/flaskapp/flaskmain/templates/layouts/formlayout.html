@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% if title %}
+      <title>{{ title }} DatasPoint | Data Visualization | Parsing | Entry</title>
+    {% else %}
+      <title>DatasPoint | Data Visualization | Parsing | Entry</title>
+    {% endif %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel='shortcut icon' type='image/icon' href="{{ url_for('static', filename='images/logonew.png') }}">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.semanticui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.semanticui.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://demos.creative-tim.com/argon-dashboard/assets/vendor/nucleo/css/nucleo.min.css" rel="stylesheet">
+    <link href="https://demos.creative-tim.com/argon-dashboard/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link type="text/css" href="https://demos.creative-tim.com/argon-dashboard/assets/css/argon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+      <div class="divform_left">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <!-- <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+             <div class="carousel-caption d-none d-md-block">
+              <h3 style="color: #f2f9ff">Something about <strong>dataspoint</strong></h3>
+              <p>We are a team of dedicated and highly professional members who are always focused on delivering what is required with ease.</p>
+            </div>
+            <img class="d-block w-100" src="{{ url_for('static', filename='images/backgroundform.png') }}" alt="First slide">
+          </div>
+          <div class="carousel-item">
+            <div class="carousel-caption d-none d-md-block">
+              <h3 style="color: #f2f9ff">Visualize csv, json, xlsx or data from any source
+                <p>Parse and Covert csv, json, xlsx or data of any type</p>
+              </h3>
+            </div>
+            <img class="d-block w-100" src="{{ url_for('static', filename='images/backgroundform1.png') }}" alt="Second slide">
+          </div>
+         <!--  <div class="carousel-item">
+            <div class="carousel-caption d-none d-md-block">
+              <h3 style="color: #f2f9ff">Data Cleaning get only what is required</h3>
+              <p><h3 style="color: #f2f9ff"> Scrape if requires with ease.</h3></p>
+             
+            </div>
+            <img class="d-block w-100" src="{{ url_for('static', filename='images/bgphoto.jpeg') }}" alt="Third slide" height="950">
+          </div> -->
+        </div>
+        <!-- <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a> -->
+      </div>
+  <!-- <h3 style="margin-left: 4%; margin-top: 35%; color: #f2f9ff">Something about <strong>dataspoint</strong></h3>
+  <p style="margin-left: 4%; margin-top: 2%; color: #defcfa;">We are a team of dedicated and highly professional members who are always focused on delivering what is required with ease.</p>  <h4 style="margin-left: 6%; margin-top:2%; color: #defcfa;"><i class="fa fa-check" aria-hidden="true"></i> Visualize csv, json, xlsx or data from any source<br />
+   <i class="fa fa-check" aria-hidden="true"></i> Parse and Covert csv, json, xlsx or data of any type<br />
+   <i class="fa fa-check" aria-hidden="true"></i> Data Cleaning get only what is required<br />
+   <i class="fa fa-check" aria-hidden="true"></i> Scrape if requires with ease.</h5> -->
+ </div>
+ {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <center><div style="width: 40%;">
+              <div class="alert alert-{{ category }} alert-dismissible fade fade show">
+               <!--  <span class="alert-icon"><i class="ni ni-bell-55"></i></span> -->
+                <span class="alert-text"><strong>{{ message }}</strong></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              </div>
+            </div></center>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+<script>
+var myInput = document.getElementById("password");
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+// When the user clicks on the password field, show the message box
+myInput.onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+myInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {  
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+  
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {  
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {  
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+  
+  // Validate length
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+</script>
+<script type="text/javascript">
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 2000);
+</script>
+<script type="text/javascript">
+  $('.carousel').carousel({
+  interval: 2000,
+  pause: "hover"
+})
+</script>
+<script src="https://demos.creative-tim.com/argon-dashboard/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script src="https://demos.creative-tim.com/argon-dashboard/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://demos.creative-tim.com/argon-dashboard/assets/js/argon.min.js"></script>
+</body>
+</html>

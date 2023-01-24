@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+
+</head>
+<body>
+<script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	function show(aval) {    
+		if (aval == "Bar Graph with Line") {//if 1 then show it
+			optionyes.style.visibility='visible';
+			optionyes.style.display='block';
+			Form.fileURL.focus();
+    } 
+		else {//for everything else hide it
+			optionyes.style.visibility='hidden';
+			optionyes.style.display='none';
+    }    
+}
+</script>
+
+<div class="row">
+	<label id="title" for="degree">Column for Populating Line</label><br />
+		<select class="form-control mb-5" name="gtype" required id="degree" name="degree" onchange="java_script_:show(this.options[this.selectedIndex].value)" >
+	      <option selected>Choose Graph Type...</option>
+	      <option value="Bar Graph">Bar Graph</option>
+	      <option value="Bar Graph with Line">Bar Graph with Line</option>
+	      <option value="Pie Chart">Pie Chart</option>
+	      <option value="Line Plot">Line Plot</option>
+	      <option value="Scatter Plot">Scatter Plot</option>
+	      <option value="Heatmap">Heatmap</option>
+	    </select>
+</div>      
+
+        <div id="optionyes" style="visibility:hidden" >
+        	<select>
+        		<option>ASIN</option>
+        		<option>SKU</option>
+        	</select>
+        </div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <section class="content ml-3">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">{{ legend }}</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            
+              <div class="card-body">
+              <form method="POST" action="">
+                {{ form.hidden_tag() }}
+              <div class="form-group">
+                <!-- <label for="pname">Project Name</label> <font color="red">*</font>
+                <input type="text" name="pname" class="form-control" title="This is a required field" placeholder="Provide name for your project" required> -->
+                {{ form.pname.label(class="form-control-label") }}<font color="red"> *</font>
+                {{ form.pname(class="form-control", placeholder="Provide name for your project", title="Please enter your project name", required="true") }}
+                 
+              </div>
+
+              <div class="form-group">
+                {% if pdata %}
+                  {{ form.ptype.label(class="form-control-label") }}
+                  <select class="form-control custom-select" title="This is a required field" name="ptype">
+                    <option value="{{ pdata }}" selected>{{ pdata }}</option>
+                     <!-- {% for val in choices %}
+                        <option value="{{ val }}">{{ val }}</option>
+                     {% endfor %} -->
+                  </select>
+
+                {% else %}
+                  {{ form.ptype.label(class="form-control-label") }}<font color="red"> *</font>
+                  <select class="form-control custom-select" title="Select your project type" name="ptype" required>
+                    <option selected disabled>Select Project Type</option>
+                     {% for val in choices %}
+                        <option value="{{ val }}">{{ val }}</option>
+                     {% endfor %}
+                  </select>
+                {% endif %}
+              </div>
+              <div class="form-group">
+                {{ form.pmessage.label(class="form-control-label") }}<font color="red"> *</font>
+                {{ form.pmessage(class="form-control textarea", placeholder="Any Special Instructions...", rows="3", title="Any Special Instructions", id= "textarea") }}
+                <!-- <label for="inputDescription">Project Description</label> <font color="red">*</font>
+                <textarea id="inputDescription" class="form-control textarea" rows="4" title="This is a required field" name="pmessage" required></textarea> -->
+              </div>
+            {% if adminval.admincheck == 'Yes' %}
+              <div class="form-group">
+                {% if prostatus %}
+                  {{ form.pstatus.label(class="form-control-label") }} <b>(for admin only)</b>
+                  <select class="form-control custom-select"  name="pstatus" title="Project Status">
+                    <option value="{{ prostatus }}" selected disabled>{{ prostatus }} - Current Status</option>
+                   {% for values in status %}
+                      <option value="{{ values }}">{{ values }}</option>
+                   {% endfor %}
+                  </select>
+                {% else %}
+                {{ form.pstatus.label(class="form-control-label") }} <b>(for admin only)</b>
+                  <select class="form-control custom-select"  name="pstatus">
+                   {% for values in status %}
+                      <option value="{{ values }}">{{ values }}</option>
+                   {% endfor %}
+                  </select>
+                {% endif %}
+              </div>
+             {% endif %}
+              <br />
+              <h5><font color="#759e9c">Budget Info</font></h5>
+              <div class="form-group">
+               <!--  <label for="inputEstimatedBudget">Estimated budget</label>
+                <input type="number" id="inputEstimatedBudget" class="form-control"> -->
+                 {{ form.estbudget.label(class="form-control-label") }}
+                 {{ form.estbudget(type="Number", class="form-control", placeholder="Your Estimated Budget", id="inputEstimatedBudget", title="Your estimated budget for overall project") }}
+              </div>
+             {% if adminval.admincheck == 'Yes' %}
+                <div class="form-group">
+                  <label for="inputSpentBudget">Total amount spent (for admin only)</label>
+                  <input type="number" id="inputSpentBudget" class="form-control", title="overall spent budget">
+                </div>
+              {% endif %}
+              <div class="form-row">
+              <div class="col-md-12 mb-1 p-1">
+               <!-- <button class="btn btn-info col-md-12 mb-2" type="submit">Create Project</button> -->
+                {{ form.submit(class="btn btn-info col-md-12 mb-2", type="submit") }}
+              </div>
+              </form>
+            </div>
+          </div>
+        
+            <!-- /.card-body -->
+          </div>
+          
+          <!-- /.card -->
+        </div>
+        
+
+          <!-- /.card -->
+
+           <div class="col-md-6">
+            <div class="card card-light">
+            <div class="card-header">
+              <h3 class="card-title">General Project Info</h3>
+            </div>
+            <div class="card-body">
+              
+              <h6><b>Data Visualization</b></h6>
+               <p>Visualize your data with ease. We have interactive application from where you can visualize your data in different format as required.</p>
+
+               <h6><b>Visualization with Scraping</b></h6>
+               <p>Visualize your data with ease. We have interactive application from where you can visualize your data in different format as required.</p>
+
+               <h6><b>Comparative visualization with insights</b></h6>
+               <p>Visualize your data with ease. We have interactive application from where you can visualize your data in different format as required.</p>
+
+              <h6><b>Custom</b></h6>
+               <p>Visualize your data with ease. We have interactive application from where you can visualize your data in different format as required.</p>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      </div>
+
+      </div>
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+   
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+   $('.textarea').summernote({
+        placeholder: 'Please provide the details of your project.',
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });
+});
+</script>
+
+{% endblock content %}

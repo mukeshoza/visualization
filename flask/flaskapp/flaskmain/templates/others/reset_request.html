@@ -1,0 +1,30 @@
+{% extends "formlayout.html" %}
+{% block content %}
+
+    <div class="divform_right" style="margin-top: 8%;">
+    <center><img src="{{ url_for('static', filename='images/logonew.png') }}" width="80" height="70">
+    <font color="#380101"><h4>dataspoint</h4></font></center><br />
+    <font color="#6cd9f5"><h4><strong>Reset Password</strong></h4>
+        <form class="needs-validation" novalidate method="POST">
+              {{ form.hidden_tag() }}
+                  <div class="form-group" style="box-shadow: 0px 4px #c9c9c9;margin-top: -1%;">
+                      {{ form.email.label(class="form-control-label") }}<font color="red"> *</font>
+                      {% if form.email.errors %}
+                          {{ form.email(class="form-control is-invalid", id="validationCustom03") }}
+                          <div class="invalid-feedback">
+                              {% for error in form.email.errors %}
+                                  <span>{{ error }}</span>
+                              {% endfor %}
+                          </div>
+                      {% else %}
+                           {{ form.email(type="email", class="form-control", placeholder="youremail@mail.com", id="validationCustom03", title="Please enter your valid email address") }}
+                           <div class="invalid-feedback">
+                            Please provide valid email.
+                           </div>
+                      {% endif %}
+                  </div>
+                  
+                    {{ form.submit(class="btn btn-info btn-lg btn-block") }}
+          </form>
+        
+{% endblock content %}

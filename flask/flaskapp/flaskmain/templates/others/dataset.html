@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <style type="text/css">
+      .odd{
+        background-color: rgba(255, 191, 191, 0.2) !important;
+      }
+    </style>
+
+    <h4 class="text-success text-center"><b>{{ project.pname }}</b></h4>
+    <br />
+    <section class="content">
+      <div style="margin-left: 85%; margin-top: -1.5%;">
+      <font size="4">
+        <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+        <a href="#">
+          <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+        </a></font>
+      </div>
+    <center><div class="btn-group btn-group-toggle">
+      <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light" title="New Visualization"><i class="fa fa-upload mr-2"></i> New Visualization</a>
+      <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+      <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+      <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light active" title="Dataset"><i class="fa fa-table mr-2"></i> Dataset</a>
+      <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light" title="Support"><i class="fa fa-comments mr-2"></i> Support</a></font>
+    </div></center>
+      <div class="">
+         
+          <div class="container-fluid">
+        
+           
+          </div>
+          <!-- /.col -->
+          <div class="col-md-12">
+           
+               <div class="card card-info card-outline">
+               <div class="card-body">
+              <form method="POST">
+                {{ formdata.hidden_tag() }}
+               <center><label>Project Files - Dataset</label>
+               <select onchange="this.form.submit()" class="form-control col-md-4" name="collectionname" id="valuedata" required>
+                <option selected disabled>Choose file name to visualize</option>
+                {% for valdata in tablenames %}
+                  <option value="{{ valdata }}">{{ valdata }}</option>
+                {% endfor %}
+              </select></center>
+            </form>
+           
+              <hr />
+              <h4 class="text-success text-center"><b>{{ selectvalue }}</b></h4>
+               </div>
+            </div>
+              <div class="card-body" style="border-radius: 4px; background-color: white;">
+              <div class="card p-3 col-md-12">
+                <table id="dataspointtable1" class="table table-bordered table-hover table-striped display compact order-column row-border" style="width: 100%;">
+                <thead>
+                <tr>
+                  {% for col in column_names %}
+                   <th style="font-size: 13px;">{{col}}</th>
+                  {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                  {% for row in row_data %}
+                <tr>
+                    {% for col, row_ in zip(column_names, row) %}
+                      <td style="font-size: 13px;">{{row_}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+               
+               <!--  <tfoot>
+                <tr>
+                  {% for col in column_names %}
+                    <th>{{col}}</th>
+                  {% endfor %}
+                </tr>
+                </tfoot> -->
+              </table>
+              </div>
+              </div><!-- /.card-body -->
+            
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+      </div>
+    </section>
+    <div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            You really want to delete <b>{{ project.pname }}</b> project!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+              <input class="btn btn-danger" type="submit" name="Delete">
+            </form>
+          </div>
+        </div>
+        </div>
+
+  </div>
+</div>
+<!-- <script type="text/javascript">
+  $("#valuedata").val("{{ valdata }}");
+</script> -->
+{% endblock content %}

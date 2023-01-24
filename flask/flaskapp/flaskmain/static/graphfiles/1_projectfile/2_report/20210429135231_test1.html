@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+		<html lang="en">
+		<head>
+	  	<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	  	<title>DatasPoint | Data Visualization | Parsing | Entry</title>
+
+	  <script src="https://code.highcharts.com/highcharts.js"></script>
+	  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+	  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+	  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+	  </head>
+	  <figure class="highcharts-figure">
+		                		<div id="container"></div><center><h4><b>What graph is saying?</b></h4>
+		<p class="highcharts-description">The bar graph shows many things. <font class="text-success">
+		<b>This is a test text.</b></font></p></center></figure><script>
+		    Highcharts.chart('container', {
+		      chart: {
+		          type: 'column'
+		      },
+		      title: {text:'test1 - Sample-Spreadsheet-10-rows'},
+		      subtitle: {
+		          text: 'Bar Graph Distribution'
+		      },
+		      xAxis: {categories: [2, 3, 4, 5, 6, 7, 8, 9, 10],title: {
+		              text: null
+		          }
+		      },
+		      yAxis: {
+		          min: 0,
+		          title: {
+		              text: '',
+		              align: 'high'
+		          },
+		          labels: {
+		              overflow: 'justify'
+		          }
+		      },
+		      tooltip: {
+		          valueSuffix: ''
+		      },
+		       plotOptions: {
+		        series: {
+		            colorByPoint: true
+		        },
+
+		        column: {
+		          dataLabels: {
+		              enabled: true
+		          }
+		       }
+		      },
+			  legend: {
+	          layout: 'vertical',
+	          align: 'right',
+	          verticalAlign: 'top',
+	          x: -20,
+	          y: 42,
+	          floating: true,
+	          borderWidth: 1,
+	          backgroundColor:
+	              Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+	          shadow: true
+			      },
+			      credits: {
+			          enabled: false
+			      },
+			      series: [{name: '1',data: [1, 1, 1, 1, 1, 1, 1, 1, 1]}]
+			  });
+			  </script>
+			  </html>
+			  

@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h4 class="text-success text-center"><b>{{ project.pname }}</b></h4>
+    <br />
+    <section class="content">
+      <div style="margin-left: 85%; margin-top: -1.5%;">
+        <font size="4">
+        <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+        <a href="#">
+          <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+        </a></font>
+      </div>
+    <center><div class="btn-group btn-group-toggle">
+      <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light" title="New Visualization"><i class="fa fa-upload mr-2"></i> New Visualization</a>
+      <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+      <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+      <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Dataset</a>
+      <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light active" title="Support"><i class="fa fa-comments mr-2"></i> Support</a></font>
+  </div></center>
+  <div class="card-info card-outline"></div>
+  <center>
+    <div class="p-2">
+    <div class="card-body" style="background-color: white;">
+   <h4 class="text-info"><i class="fas fa-tasks"></i>  Project Details</h4><br />
+        <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+              <div class="row">
+                <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <span class="info-box-text text-center text-muted">Estimated budget</span>
+                      <span class="info-box-number text-center text-muted mb-0">${{ project.estbudget }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+                      <span class="info-box-text text-center text-muted">Total amount spent</span>
+                      <span class="info-box-number text-center text-muted mb-0">${{ project.totalbudget }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="info-box bg-light">
+                    <div class="info-box-content">
+
+                      <span class="info-box-text text-center text-muted">Project Status</span>
+                      {% if project.pstatus == 'In Review' %}
+                        <span class="info-box-number text-center text-muted mb-0"><font class="text-info">{{ project.pstatus }}</font><span>
+                      {% elif project.pstatus == 'In Progress' %}
+                        <span class="info-box-number text-warning text-center text-muted mb-0"><font class="text-warning">{{ project.pstatus }}</font> <span>
+                      {% elif project.pstatus == 'Completed' %}
+                        <span class="info-box-number text-warning text-center text-muted mb-0"><font class="text-success">{{ project.pstatus }}</font> <span>
+                      {% else %}
+                        <span class="info-box-number text-success text-center text-muted mb-0"><font class="text-danger">{{ project.pstatus }} </font><span>
+                      {% endif %}   
+                    </div>
+                  </div>
+                </div>
+              </div>
+    <p class="text-muted">{{ project.pmessage|safe }}</p>
+    <br>
+    <div class="text-muted">
+      <p class="text-sm">Project Name
+        <b class="d-block">{{ project.pname }}</b>
+      </p>
+      <p class="text-sm">Project Type
+        <b class="d-block">{{ project.ptype }}</b></p>
+
+        <p><b class="d-block">Created On: {{ project.date_posted.strftime('%Y-%m-%d, %H:%M %p') }}</b>
+        {% if adminval.admincheck == 'Yes' %}
+          <b class="d-block">Created by: {{ project.user.username }}</b>
+        {% endif %}
+      </p>
+      
+      
+      </div>
+
+    </div></center>
+<br />
+<div class="card-info card-outline"></div>
+<div class="card-body" style="background-color: white;">
+<div class="row p-2">
+  <div class="col-12">
+    <h4 class="text-info"><i class="fas fa-comments"></i> Conversation History</h4>
+    <hr />
+     {% for msg, date, user, time, fchar, admin in mesaageuser %}
+     <br />
+        <div class="mr-3" style="text-align: right;"><font size="2">{{ date }}</font></div>
+         <div class="post">
+        {% if admin == 'Admin' %}
+          <div class="user-block" style="margin-top: -3%;">
+          <div class="p-1" style="font-size: 25px; width: 45px; height:45px; border-radius: 4px; background-color: rgba(9, 131, 181, 1); color: white; text-align: center;"><b>{{ fchar }}</b></div>
+            <span class="username" style="margin-top: -3%;">
+              <a href="#">{{ user }}<font size="1" class="text-secondary" > {{ admin }}</font></a>
+            </span>
+            <span class="description">{{ time }}</span>
+          </div>
+          <p>
+            <div class="ml-5">{{ msg|safe }}</div>
+          </p>
+        <hr />
+        {% else %}
+          <div class="user-block" style="margin-top: -3%;">
+            <div class="p-1" style="font-size: 25px; width: 45px; height:45px; border-radius: 4px; background-color: rgba(237, 175, 2, 1); color: white; text-align: center;"><b>{{ fchar }}</b></div>
+            <span class="username" style="margin-top: -3%;">
+              <a href="#">{{ user }}<font size="1" class="text-secondary" > {{ admin }}</font></a>
+            </span>
+            <span class="description">{{ time }}</span>
+          </div>
+
+          <p>
+            <div class="ml-5">{{ msg|safe }}</div>
+          </p>
+        </div>
+     {% endif %}
+     {% endfor %}
+     <form method="POST">
+      {{ chatform.hidden_tag() }}
+      <div class="form-group mb-3">
+        <label for="inputDescription">Send us your query</label>
+          {{ chatform.chatinput(class="form-control", type = "textarea", rows="3", id= "inputDescription")  }}
+
+        <button class="btn btn-info col-md-12" type="submit">Send Message</button>
+      </div>
+    </form>
+  </div>
+ </div> 
+</div>
+</div>
+   
+</section>
+       
+  </div>
+</div>
+   <div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+
+<script>
+$(document).ready(function() {
+   $('#inputDescription').summernote({
+        placeholder: 'Please let us know if you have any query.',
+        codemirror: {
+        theme: 'monokai'},
+          toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear', 'fontsize']],
+          ['color', ['color']],
+          ['table', ['table']],
+          ['insert', ['link', 'video']],
+          ['view', ['fullscreen']],
+        ]
+      });
+});
+</script>
+
+{% endblock content %}

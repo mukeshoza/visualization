@@ -1,0 +1,58 @@
+{% extends "formlayout.html" %}
+{% block content %}
+
+		<div class="divform_right">
+		<center><img src="{{ url_for('static', filename='images/logonew.png') }}" width="80" height="70">
+		<font color="#380101"><h4>dataspoint</h4></font></center>
+		<font color="#6cd9f5"><h4><strong>Register Yourself</strong></h4><br />
+		    <form class="needs-validation" novalidate method="POST" action="">
+	            {{ form.hidden_tag() }}
+	                <div class="form-group" style="box-shadow: 0px 4px #c9c9c9; margin-top: -1%;">
+						{{ form.username.label(class="form-control-label") }}<font color="red"> *</font>
+	                    {{ form.username(class="form-control", type="text", placeholder="Your Full Name", id="validationCustom03", title="Please enter your full name") }}
+		            
+
+		                <div class="invalid-feedback">
+				          Name must be between 2-20 Chars.
+				        </div>
+				    </div>
+		        
+                 	<div class="form-group" style="box-shadow: 0px 4px #c9c9c9;margin-top: -1%;">
+	                    {{ form.email.label(class="form-control-label") }}<font color="red"> *</font>
+	                    {% if form.email.errors %}
+	                        {{ form.email(class="form-control is-invalid", id="validationCustom03") }}
+	                        <div class="invalid-feedback">
+	                            {% for error in form.email.errors %}
+	                                <span>{{ error }}</span>
+	                            {% endfor %}
+	                        </div>
+	                    {% else %}
+	                         {{ form.email(type="email", class="form-control", placeholder="youremail@mail.com", id="validationCustom03", title="Please enter your valid email address") }}
+	                         <div class="invalid-feedback">
+	                         	Please provide valid email.
+	                         </div>
+	                    {% endif %}
+	                </div>
+	                <div class="form-group" style="box-shadow: 0px 4px #c9c9c9;margin-top: -1%;">
+		                    {{ form.password.label(class="form-control-label") }}<font color="red"> *</font>
+		                    {{ form.password(class="form-control", placeholder="Password", pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}", title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 characters") }}
+			                    <div class="invalid-feedback">
+						        	Must contain at least one number and one uppercase and lowercase letter, and at least 8 characters
+						     	</div>
+	                </div>
+
+	                <div class="form-group" style="box-shadow: 0px 4px #c9c9c9;margin-top: -1%;">
+		                    {{ form.address.label(class="form-control-label") }}
+		                    {{ form.address(class="form-control", placeholder="Your Address", title="This is an optional field") }}
+	                </div>
+
+	                 <div class="form-group" style="box-shadow: 0px 4px #c9c9c9;margin-top: -1%;">
+		                    {{ form.companyname.label(class="form-control-label") }}
+		                    {{ form.companyname(class="form-control", placeholder="Your Company Name", title="This is an optional field") }}
+	                </div>
+	                	{{ form.submit(class="btn btn-info btn-lg btn-block") }}
+		    </form>
+		    
+				<hr /><div class="text-muted">Already have an account? <a class="ml-2 text-info" href="{{ url_for('users.login') }}">Sign In</a></div>
+    	</div>
+{% endblock content %}

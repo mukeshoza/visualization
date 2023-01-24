@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      {% if title %}
+        <title>{{ title }} DatasPoint | Data Visualization | Parsing | Entry</title>
+      {% else %}
+        <title>DatasPoint | Data Visualization | Parsing | Entry</title>
+      {% endif %}
+
+        <link rel='shortcut icon' type='image/icon' href="{{ url_for('static', filename='images/logonew.png') }}">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.semanticui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.semanticui.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+        <link href="https://demos.creative-tim.com/argon-dashboard/assets/vendor/nucleo/css/nucleo.min.css" rel="stylesheet">
+        <link href="https://demos.creative-tim.com/argon-dashboard/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+        <link href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+        <link type="text/css" href="https://demos.creative-tim.com/argon-dashboard/assets/css/argon.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/visualize.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    </head>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 20%;">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dashboard') }}" style="text-decoration: none;">
+              <i class="fa fa-dashboard text-dark"> Dashboard</i> 
+            </a>
+          </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </ul>
+
+        <div class="col-md-2 mr-6">
+          <form action="{{ url_for('search') }}" method="POST">
+          {{ formsearch.hidden_tag() }} 
+            <div class="input-group">
+                               
+              <div class="ui-front">
+              
+                {{ formsearch.searchterm(class="form-control border-secondary", type="input", placeholder="search app", id="tags", style="height: 36.5px; background-color: rgba(255, 255, 255, 0.9); color: #064b69; width:120%;") }}
+           
+              </div>
+            </div>
+          </form>
+        </div>
+       
+        <span class="navbar-text nav-item dropdown navright">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong><font color="black" size="2">{{ current_user.username }} </font></strong>&nbsp;&nbsp;&nbsp;<img src="{{ image_file }}" class="rounded-circle" alt="dataspoint_user_image" width="25" height="25"></a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="width:170px; border-radius: 8px;">
+              {% if adminval.admincheck == 'Yes' %}
+                <a class="dropdown-item" href="#"><font color="#424242" size="2"><strong>Admin User</strong></font></a>
+                <div class="dropdown-divider"></div>
+              {% endif %}
+              <a class="dropdown-item" href="#"><font color="#424242" size="2"><i class="fa fa-users" aria-hidden="true"></i> &nbsp;Teams</font></a>
+              <a class="dropdown-item" href="#"><font color="#424242" size="2"><i class="fa fa-tasks" aria-hidden="true"></i> &nbsp;Projects</font></a>
+              <a class="dropdown-item" href="{{ url_for('account') }}"><font color="#424242" size="2"><i class="fa fa-address-book" aria-hidden="true"></i> &nbsp;Account</font></a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{{ url_for('logout') }}"><font color="#424242" size="2"><i class="fa fa-sign-out" aria-hidden="true"></i> &nbsp;Log Out</font></a>
+            </div>
+        </span>
+      </div>
+    </nav>
+    <div class="divside">
+      <div style="margin-top: 90%;"><center><a class="text-light" href="{{ url_for('dashboard') }}" style="text-decoration: none;">
+      <img src="{{ url_for('static', filename='images/logonew.png') }}" width="30" height="30" class="d-inline-block align-top" alt="dataspoint_logo">
+        <p><strong>dataspoint</strong></p>
+      </a></center></div>
+     <div style="margin-top: 90px; margin-left: 25%;"><a class="btn btn-secondary btn-circle btn-circle-lg m-1" data-toggle="tooltip" data-placement="right" title="Team Members" role="button" href="#">
+      <i class="fa fa-users"></i></a></div>
+      <div style="margin-top: 25px; margin-left: 25%;"><a class="btn btn-secondary btn-circle btn-circle-lg m-1" data-toggle="tooltip" data-placement="right" title="Project List" role="button" href="#">
+      <i class="fa fa-tasks"></i></a></div>
+      <div style="margin-top: 25px; margin-left: 25%;"><a class="btn btn-secondary btn-circle btn-circle-lg m-1" data-toggle="tooltip" data-placement="right" title="Profile Info" role="button" href="{{ url_for('account') }}">
+      <i class="fa fa-address-book"></i></a></div>
+      <div style="margin-top: 25px; margin-left: 25%;"><a class="btn btn-secondary btn-circle btn-circle-lg m-1" data-toggle="tooltip" data-placement="right" title="Log Out" role="button" href="{{ url_for('logout') }}">
+      <i class="fa fa-sign-out"></i></a></div>
+     <div  style="margin-top: 240px; margin-left: 22%;"><a class="btn btn-danger btn-circle btn-circle-lg m-1" data-toggle="tooltip" data-placement="right" title="Add New Project" role="button" href="{{ url_for('project') }}">
+      <i class="fa fa-plus"></i></a></div>
+    </div>
+    <body>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <center><div style="width: 40%;">
+              <div class="alert alert-{{ category }} fade show">
+                <span class="alert-text"><strong>{{ message }}</strong></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              </div>
+            </div></center>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <style>
+  .divprojectmain{
+    margin-top: 2%;
+  }
+
+</style>
+ 
+<center><h3 class="text-success" style="margin-top: 1.2%;"><b>{{ project.pname }}</h3></b></center>
+<b><div style="margin-left: 85%; margin-top: -1.5%;">
+<a href="{{ url_for('project_update', project_id=project.id) }}"><i class="fa fa-pencil-square-o fa-2x text-secondary" aria-hidden="true" title="Edit Project"></a></i> &nbsp;&nbsp;
+<a href="#"><i class="fa fa-trash-o fa-2x text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i></a></div></b>
+
+<div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    You really want to delete <strong>{{ project.pname }}</strong> project!
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <form action="{{ url_for('delete_project', project_id=project.id) }}" method="POST">
+      <input class="btn btn-danger" type="submit" name="Delete">
+    </form>
+  </div>
+</div>
+</div>
+</div>
+
+{% block content %}{% endblock %}
+
+
+ 
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+<script>
+
+$( function() {
+    var availableTags = {{ products|tojson|safe }};
+    $( "#tags" ).autocomplete({
+        source: availableTags
+    });
+} );
+
+</script>
+
+<script>
+var myInput = document.getElementById("password");
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+// When the user clicks on the password field, show the message box
+myInput.onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+myInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {  
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+  
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {  
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {  
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+  
+  // Validate length
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+</script>
+
+<script type="text/javascript">
+          const $dropdown = $(".dropdown");
+          const $dropdownToggle = $(".dropdown-toggle");
+          const $dropdownMenu = $(".dropdown-menu");
+          const showClass = "show";
+           
+          $(window).on("load resize", function() {
+            if (this.matchMedia("(min-width: 768px)").matches) {
+              $dropdown.hover(
+                function() {
+                  const $this = $(this);
+                  $this.addClass(showClass);
+                  $this.find($dropdownToggle).attr("aria-expanded", "true");
+                  $this.find($dropdownMenu).addClass(showClass);
+                },
+                function() {
+                  const $this = $(this);
+                  $this.removeClass(showClass);
+                  $this.find($dropdownToggle).attr("aria-expanded", "false");
+                  $this.find($dropdownMenu).removeClass(showClass);
+                }
+              );
+            } else {
+              $dropdown.off("mouseenter mouseleave");
+            }
+          });
+</script>
+
+<script type="text/javascript">
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 2000);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://demos.creative-tim.com/argon-dashboard/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://demos.creative-tim.com/argon-dashboard/assets/js/argon.min.js"></script>
+</body>
+</html>

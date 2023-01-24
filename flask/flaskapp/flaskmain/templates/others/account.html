@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+{% block content %}
+
+ <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-info card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                      	src="{{ image_file }}"
+                       alt="User profile picture">
+                </div>
+                <h3 class="profile-username text-center">{{ current_user.username }}</h3>
+                <br />
+                <h5><p class="text-success">Account Info</p></h5>
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Email</b> <a class="float-right">{{ current_user.email }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Address</b> <a class="float-right">{{ current_user.address }}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Company</b> <a class="float-right">{{ current_user.companyname }}</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+           
+          </div>
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <h4 class="text-success">Update Account</h4>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+              <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+               <div class="form-row">
+                  <div class="col-md-12 mb-4">
+                    <label>User Name</label>
+                    {{ form.username(class="form-control form-control", type="text", placeholder="Your Full Name", title="Change your name here.") }}
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-12 mb-4">
+                    <label>Address</label>
+                    {{ form.address(class="form-control form-control", placeholder="Your Address", title="This is an optional field") }}
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-12 mb-4">
+                    <label>Company Name</label>
+                    {{ form.companyname(class="form-control form-control", placeholder="Your Company Name", title="This is an optional field") }}
+                  </div>
+                </div>
+
+                 <div class="form-group mb-4">
+                    
+                      <label for="customFile">Profile Picture</label>
+
+                      <div class="custom-file">
+                        {{ form.picture(type="file", class="custom-file-input", id="customFile", accept=".jpg,.jpeg,.png") }}
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        {% if form.picture.errors %}
+                          {% for error in form.picture.errors %}
+                          <br />
+                            <span class="text-danger">{{ error }}</span><br />
+                          {% endfor %}
+                        {% endif %}
+                      </div>
+                    
+                  </div>
+
+                  <div class="form-row mb-2">
+                    
+                      <label>Email Address</label>
+                      {% if form.email.errors %}
+                            {{ form.email(class="form-control form-control text-muted", readonly=true) }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                             {{ form.email(type="email", class="form-control form-control text-muted", placeholder="youremail@mail.com", title="You cannot edit this field.", readonly=true) }}
+                             
+                        {% endif %}
+
+                    </div>
+                </div>
+                <div class="col-md-12 mb-4 p-3">
+                  {{ form.submit(class="col-md-12 mb-2 btn btn-info") }}
+                </div>
+              </form>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+
+   
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
+
+{% endblock content %}

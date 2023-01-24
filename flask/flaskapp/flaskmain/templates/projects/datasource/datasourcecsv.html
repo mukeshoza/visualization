@@ -1,0 +1,171 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+
+  <style>
+  
+  .files input {
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    padding: 120px 0px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+    cursor: pointer;
+}
+.files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+ }
+.files{ position:relative}
+.files:after {  pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(https://image.flaticon.com/icons/svg/126/126488.svg);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.files:before {
+    position: absolute;
+    bottom: 14px;
+    left: 0;  pointer-events: none;
+    width: 100%;
+    right: 0;
+    padding: 3%;
+    height: 58px;
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+}
+</style>
+
+<!--      <div class="content-header">-->
+<!--        <div class="container-fluid">-->
+<!--          <div class="row mb-1">-->
+<!--            <div class="col-sm-6">-->
+<!--              <h1 class="m-0 text-dark">Data Source</h1>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--      </div>-->
+
+  {% if project.pstatus == 'Cancelled' %}
+        <center><div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -3%; margin-right: 45%;">
+          <center><font size='1'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+        </div></center>
+    {% endif %}
+<section class="content data-source-content">
+  <h4 class="text-center project-name mt-3"><b>{{ project.pname }}</b></h4>
+  <br />
+  <center><div class="btn-group btn-group-toggle">
+    <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light active" title="New Visualization"><i class="bi bi-cloud-arrow-up"></i> Data Source</a>
+    <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Data Cleaning</a>
+    <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+    <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+    <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light" title="Support"><i class="fa fa-comments mr-2"></i> Project Details</a></font>
+
+
+    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-hover dropdown-icon ml-3" data-toggle="dropdown" title="Remove Duplicates"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</button>
+            <div class="dropdown-menu" role="menu">
+              <a class="dropdown-item bg-warning" href="{{ url_for('projects.project_update', project_id=project.id) }}" title="Edit Project"><i class="fas fa-edit mr-2" aria-hidden="true" title="Edit Project"></i> Edit Project</a>
+              <a class="dropdown-item bg-danger" href="#" title="Delete Project" data-target="#dataspoint_modal" data-toggle="modal" title="Delete Project"><i class="fas fa-trash-alt mr-2" aria-hidden="true"></i> Delete Project</a>
+            </div>
+
+        <button type="button" class="btn btn-light btn-sm dropdown-toggle dropdown-hover dropdown-icon ml-3 " data-toggle="dropdown" title="Remove Duplicates" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ url_for('static', filename='assets/images/icon/settings.svg') }}"> Settings</button>
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item" href="{{ url_for('projects.project_update', project_id=project.id) }}" title="Edit Project">
+                 <img src="{{ url_for('static', filename='assets/images/icon/edit.svg') }}"> Edit Project</a>
+            <a class="dropdown-item" href="#" title="Delete Project" data-target="#dataspoint_modal" data-toggle="modal" title="Delete Project">
+                 <img src="{{ url_for('static', filename='assets/images/icon/delete.svg') }}"> Delete Project</a>
+          </div>
+
+  </div></center>
+   <a class="float" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+     <i class="fa fa-envelope fa-2x my-float text-light" aria-hidden="true" title="Support"></i>
+    </a>
+
+  <div class="card card-info card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              Upload File
+            </h3>
+          </div>
+          <div class="card-body">
+            <h5>Select Data Source</h5>
+            <br />
+            <div class="row">
+              <div class="col-5 col-sm-3">
+                <div class="btn-group-vertical bg-light" style="border-right: thick solid grey">
+                  <a type="button" class="btn btn-light active mb-2" href="{{ url_for('projects.visualization', project_id=project.id) }}">CSV</a>
+                  <a type="button" class="btn btn-light mb-2 disabled" href="#" >JSON Lines</a>
+                  <a type="button" class="btn btn-light mb-2 disabled" href="{{ url_for('projects.mysql', project_id=project.id) }}">MYSQL</a>
+
+                </div>
+              </div>
+
+              <div class="col-7 col-sm-9" style="margin-top: -3%;">
+
+<!--                    <a class="btn btn-secondary" href="{{ url_for('projects.addoperation', project_id=project.id) }}" title="click to perform deduping, merging and other operations before uploading">Additional Operations</a>-->
+
+                     <form method="POST" action="" enctype="multipart/form-data">
+                      {{ form.hidden_tag() }}
+                      <br />
+                      <div class="card-body card-info card-outline">
+                          <div class="form-group files color">
+                            
+                            <!-- {{ form.filecsv(type="file", class="form-control", accept=".csv", required="true") }} -->
+                            <input type="file" name="filecsv" class="form-control" accept=".csv, .xlsx" required>
+                            <div class="invalid-feedback">
+                                  <strong><font size="2">Please choose a file.</font></strong>
+                            </div>
+                            {% if form.filecsv.errors %}
+                              {% for error in form.filecsv.errors %}
+                                <span class="text-danger"><b>{{ error }}</b></span>
+                              {% endfor %}
+                            {% endif %}
+                          </div><br />
+                          {{ form.submit(class="btn btn-info col-md-12") }}
+                      </div>
+                      </form>      
+                  </div>
+            </section>
+
+      
+   <div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+      </div>
+    </div>
+<!-- end-->
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h4 class="text-success text-center"><b>{{ project.pname }}</b></h4>
+    <br />
+    <section class="content">
+      <div style="margin-left: 85%; margin-top: -1.5%;">
+        <font size="4">
+        <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+        <a href="#">
+          <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+        </a></font>
+      </div>
+    <center><div class="btn-group btn-group-toggle">
+      <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light" title="New Visualization"><i class="fa fa-upload mr-2"></i> New Visualization</a>
+      <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+      <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light active" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+      <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Dataset</a>
+      <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light" title="Support"><i class="fa fa-comments mr-2"></i> Support</a></font>
+  </div></center>
+    <section class="content">
+      <div class="card-info card-outline">
+        <div class="card-body" style="background-color: white;">
+           <div class="col-md-12">
+            <div class="card-light card-outline p-2">
+               <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <section class="content p-2">
+                   <center><label>Choose your saved file to visualize</label>
+                   <div class="col-md-4">
+                   <select onchange="this.form.submit()" class="form-control" name="selectfilechart" id = "myval" required style="border:none; box-shadow: 2px 2px 0px grey;">
+                    <!-- <option value="Choose file name to visualize" selected disabled>Choose file name to visualize</option> -->
+                    {% for val in (reval) %}
+                      <option value="{{ val }}" title="{{ val }}">{{ val }}</option>
+                    {% endfor %}
+                  </select>
+                </div></center>
+              </form>
+              <br />
+              <div class="card-info card-outline"></div>
+              <center>
+                  <div>
+                    {% if valgraph==None %}
+                      <center><img src="{{ url_for('static', filename= 'images/myimage.png') }}" width="600" height="450"></center>
+                    {% else %}  
+                      <iframe src="{{ url_for('static', filename= graphpath) }}" style="border:none; height: 500px; width: 100%;"></iframe>
+                    {% endif %}
+                  </div>
+                </center>              
+            </div>
+
+           </div>
+            <!-- <div class="col-md-3">
+            <div class="card card-light card-outline p-2">
+              zxxvxvcx
+            </div>
+           </div> -->
+        </div>
+      </div>
+    </section>
+
+ <div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+
+{% endblock content %}

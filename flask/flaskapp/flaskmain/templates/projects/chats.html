@@ -1,0 +1,18 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+
+	<section class="content">
+	<div class="card card-body">
+	   <form method="POST">
+	      {{ formchat.hidden_tag() }}
+	      <div class="form-group ml-5 p-4">
+	        <label for="inputDescription">Send us your query</label>
+	          {{ formchat.chatinput(class="form-control col-md-12", type = "textarea", rows="2", id= "inputDescription")  }}
+
+	        <button class="btn btn-info col-md-12" type="submit">Send Message</button>
+	      </div>
+	    </form>
+	</div>
+	</section>
+
+{% endblock content %}

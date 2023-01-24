@@ -1,0 +1,183 @@
+{% extends "layouts/layout.html" %}
+{% block content %}  
+
+<!--      <div class="content-header">-->
+<!--        <div class="container-fluid">-->
+<!--          <div class="row mb-0">-->
+<!--            <div class="col-sm-6">-->
+<!--              <h1 class="m-0 text-dark">View Visualization</h1>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--      </div>-->
+
+    {% if project.pstatus == 'Cancelled' %}
+        <center><div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -3%; margin-right: 45%;">
+          <center><font size='1'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+        </div></center>
+    {% endif %}
+    <section class="content view-visualization-content">
+            <h4 class="project-name  text-center mt-3"><b>{{ project.pname }}</b></h4>
+   <!--    <div style="margin-left: 85%; margin-top: -1.5%;">
+        <font size="4">
+        <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+        <a href="#">
+          <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+        </a></font>
+      </div> -->
+
+    <br />
+    <center><div class="btn-group btn-group-toggle">
+      <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light" title="New Visualization"><i class="fa fa-upload mr-2"></i> Data Source</a>
+      <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Data Cleaning</a>
+      <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+      <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light active" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+      <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light" title="Support"><i class="fa fa-comments mr-2"></i> Project Details</a></font>
+<!--        <font size="4" class="ml-5 mt-1">
+          <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+          <a href="#">
+            <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+          </a></font> -->
+        <button type="button" class="btn btn-light btn-sm dropdown-toggle dropdown-hover dropdown-icon ml-3 " data-toggle="dropdown" title="Remove Duplicates" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ url_for('static', filename='assets/images/icon/settings.svg') }}"> Settings</button>
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item" href="{{ url_for('projects.project_update', project_id=project.id) }}" title="Edit Project">
+                 <img src="{{ url_for('static', filename='assets/images/icon/edit.svg') }}"> Edit Project</a>
+            <a class="dropdown-item" href="#" title="Delete Project" data-target="#dataspoint_modal" data-toggle="modal" title="Delete Project">
+                 <img src="{{ url_for('static', filename='assets/images/icon/delete.svg') }}"> Delete Project</a>
+<!--            <a class="dropdown-item" href="#" title="Edit Project"><i class="fas fa-money-check-alt text-secondary mr-2" aria-hidden="true" title="Edit Project"></i> Invoices</a>-->
+          </div>
+     
+  </div></center>
+   <a class="float" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+       <i class="fa fa-envelope fa-2x my-float text-light" aria-hidden="true" title="Support"></i>
+      </a>
+
+    <section class="container-fluid">
+      <div class="card-info card-outline">
+        <div class="card-body" style="background-color: white;">
+           <div class="col-md-12">
+            <div class="card-light card-outline p-2">
+              {% if reval %}
+                <h4>Your saved visualization reports</h4>
+              {% else %}
+                <h4>No saved report found</h4>
+              {% endif %}
+                <!--<form method="POST" action="">
+                {{ form.hidden_tag() }}
+
+                   <center><label>Choose your saved file to visualize</label>
+                   <div class="col-md-4">
+                   <select onchange="this.form.submit()" class="form-control select2bs4" name="selectfilechart" id = "myval" required style="border:none; box-shadow: 2px 2px 0px grey;">
+                    {% for val in (reval) %}
+                      <option value="{{ val }}" title="{{ val }}">{{ val }}</option>
+                    {% endfor %}
+
+
+                  </select>
+                </div></center>
+              </form>
+              <br /> -->
+          <!--     <div class="card-info card-outline"></div>
+              <center>
+                  <div>
+                    {% if valgraph==None %}
+                      <center><img src="{{ url_for('static', filename= 'images/myimage.png') }}" width="400" height="450"></center>
+                    {% else %}
+                      <iframe src="{{ url_for('static', filename= graphpath) }}" style="border:none; height: 500px; width: 100%;"></iframe>
+                    {% endif %}
+                  </div>
+                </center>
+            </div>
+
+           </div>-->
+           <section class="content p-2">
+            <div class="row" id = "sortable">
+              {% for val, graph in zip(reportdata, graphpath1) %}
+                <div class="col-md-6">
+                  <div class="card card-outline card-info">
+                    <div class="card-header" style="cursor: move;">
+                      <h3 class="card-title text-capitalize text-center">{{ val.reportname }}</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="maximize", title="Maximize Report" style="float: right;"><i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Minimize Report" style="float: right;">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool text-danger" data-card-widget="delete" data-target="#report_modal_{{ val.reportname }}" data-toggle="modal" title="Delete Report" style="float: right;">
+                          <i class="fas fa-trash"></i>
+                        </button>
+
+                        
+                
+                      </div>
+                      <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body mb-1 text-secondary" target="myiframe">
+                      <!-- Created On: add date <br />
+                      Created By: login name -->
+                      <iframe src="{{ url_for('static', filename= graph) }}" name="myiframe" style="border:none; height: 400px; width: 100%;"></iframe>
+                    </div>
+                    <!-- /.card-body -->
+                     <div class="card-footer text-center text-secondary">
+                      Created on: {{ val.reportcreatedon.strftime('%B %d, %Y, %I:%M %p') }}
+                      <div>Created by: {{ val.reportcreatedby }}</div>
+                    </div>
+                  </div>
+                  <!-- /.card -->
+                <br />
+                </div>
+               
+              {% endfor %}
+            </div>
+    </section>
+
+<div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> report!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+</div>
+
+
+{% for valreport in reportdata %}
+<div class="modal fade" id="report_modal_{{ valreport.reportname }}" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled_1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled_1">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ valreport.reportname }}</b> report!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_report', project_id=project.id, reportname=valreport.reportnamefile) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock content %}

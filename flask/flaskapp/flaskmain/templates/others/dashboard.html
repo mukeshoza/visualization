@@ -1,0 +1,216 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-info"><i class="fas fa-folder-open"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Projects</span>
+                <span class="info-box-number">{{ projectcount }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-success"><i class="far fa-money-bill-alt"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Avg. Estimated Budget</span>
+                <span class="info-box-number">${{ sumestbudget }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-warning"><i class="fas fa-coins"></i></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total Budget Spent</span>
+                <span class="info-box-number">${{ sumtotalbudget }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-danger"><i class="far fa-user"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total Members</span>
+                <span class="info-box-number">5</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+      </div>
+
+
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <div class="card card-chart">
+              <div class="card-header bg-info mb-3">
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                </div>
+               
+              </div>
+              <div class="card-body">
+                <canvas id="myChart"></canvas>
+                <br />
+                
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <h4 class="card-title">Project Monthly Stats</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card card-chart">
+              <div class="card-header bg-danger mb-3">
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                 <canvas id="myChart1"></canvas><br />
+
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <h4 class="card-title">Amount Spent Monthly</h4>
+                </div>
+              </div>
+          </div>
+        </div>
+         <div class="col-md-12 mt-3 mb-3">
+            <div class="card card-default">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-tasks"></i> 
+                  Recent Project List
+                </h3>
+              </div>
+              <!-- /.card-header -->
+            {% for project in projects.items %}
+              <div class="card-body">
+                <div class="callout callout-info" style="box-shadow: 4px 4px 6px grey;">
+                  {% if adminval.admincheck == 'Yes' %}
+                    <a href="{{ url_for('users.user_projects', username=project.user.username) }}" style="text-decoration: none;" class="text-success"><h6>{{ project.user.username }}</h6></a>
+                  {% endif %}
+                  <a href="{{ url_for('projects.visualization', project_id=project.id) }}" style="text-decoration: none;" class="text-info"><h5>{{ project.pname }}</h5>
+
+                  <p>{{ project.ptype }}</p>
+                </a>
+                {% if project.pstatus == 'In Review' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-info" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% elif project.pstatus == 'In Progress' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-warning" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-spinner"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% elif project.pstatus == 'Completed' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-success" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-th-list"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% else %}
+                  <div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-window-close"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% endif %}   
+                   <p style="float: right; margin-top: -1%; font-size: 10px;" class="mr-2">Created On: {{ project.date_posted.strftime('%Y-%m-%d, %H:%M %p') }}</p>
+                </div>
+                
+              </div>
+            {% endfor %}
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <div style="margin-left: 45%;">
+
+              {% for page_num in projects.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                  {% if projects.page == page_num %}
+                    <a class="btn btn-info mb-6" href="{{ url_for('users.dashboard', page=page_num) }}">{{ page_num }}</a>
+                  {% else %}
+                    <a class="btn btn-outline-info mb-6" href="{{ url_for('users.dashboard', page=page_num) }}">{{ page_num }}</a>
+                  {% endif %}
+                {% else %}
+                  ...
+                {% endif %}
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+  </section>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Monthly Project Count',
+            backgroundColor: 'rgba(0, 200, 214, 0.5)',
+            borderColor: 'rgba(3, 155, 166, 0.9)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+</script>
+
+<script type="text/javascript">
+  var ctx = document.getElementById('myChart1').getContext('2d');
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Monthly Amount Spent',
+            backgroundColor: 'rgba(163, 0, 25, 0.5)',
+            borderColor: 'rgba(222, 4, 4, 0.9)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+</script>
+
+
+{% endblock content %}

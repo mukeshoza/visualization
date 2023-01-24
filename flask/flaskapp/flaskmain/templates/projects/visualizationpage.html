@@ -1,0 +1,216 @@
+{% extends "layouts/projectlayout.html" %}
+{% block content %}
+
+  <style>
+  
+  .files input {
+    outline: 2px dashed #92b0b3;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    padding: 120px 0px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+    cursor: pointer;
+}
+.files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+ }
+.files{ position:relative}
+.files:after {  pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(https://image.flaticon.com/icons/svg/126/126488.svg);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.color input{ background-color:rgba(255, 248, 247, 0.5);}
+.files:before {
+    position: absolute;
+    bottom: 14px;
+    left: 0;  pointer-events: none;
+    width: 100%;
+    right: 0;
+    padding: 3%;
+    height: 58px;
+    content: " or drag it here (CSV file). ";
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+}
+</style>
+
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-1">
+            <div class="col-sm-6">
+              <h1 class="m-0 text-dark">Data Source</h1>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </div>
+
+<h4 class="text-success text-center"><b>{{ project.pname }}</b></h4>
+  <br />
+  {% if project.pstatus == 'Cancelled' %}
+        <center><div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -3%; margin-right: 45%;">
+          <center><font size='1'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+        </div></center>
+    {% endif %}
+<section class="content">
+  <!-- <div style="margin-left: 85%; margin-top: -1.5%;">
+  <font size="4">
+  <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+  <a href="#">
+    <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+  </a></font>
+</div> -->
+  
+  <center><div class="btn-group btn-group-toggle">
+    <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light active" title="New Visualization"><i class="fa fa-upload mr-2"></i> Data Source</a>
+    <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+    <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+    <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Dataset</a>
+    <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light" title="Support"><i class="fa fa-comments mr-2"></i> Support</a></font>
+   <!--  <font size="4" class="ml-5 mt-1">
+      <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+      <a href="#">
+        <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+      </a></font> -->
+    <button type="button" class="btn btn-info btn-sm dropdown-toggle dropdown-hover dropdown-icon ml-3" data-toggle="dropdown" title="Remove Duplicates"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</button>
+            <div class="dropdown-menu" role="menu">
+              <a class="dropdown-item bg-warning" href="{{ url_for('projects.project_update', project_id=project.id) }}" title="Edit Project"><i class="fas fa-edit mr-2" aria-hidden="true" title="Edit Project"></i> Edit Project</a>
+              <a class="dropdown-item bg-danger" href="#" title="Delete Project" data-target="#dataspoint_modal" data-toggle="modal" title="Delete Project"><i class="fas fa-trash-alt mr-2" aria-hidden="true"></i> Delete Project</a>
+<!--              <a class="dropdown-item" href="#" title="Edit Project"><i class="fas fa-money-check-alt text-secondary mr-2" aria-hidden="true" title="Edit Project"></i> Invoices</a>-->
+            </div>
+  </div></center>
+   <a class="float" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+     <i class="fa fa-envelope fa-2x my-float text-light" aria-hidden="true" title="Support"></i>
+    </a>
+
+  <div class="card card-info card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              Upload File
+            </h3>
+          </div>
+          <div class="card-body">
+            <h5>Select File Source</h5>
+            <div class="row">
+              <div class="col-5 col-sm-3">
+                <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+                  <a class="nav-link active text-info" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">CSV/XLSX</a>
+                  <a class="nav-link text-info" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-lines" role="tab" aria-controls="vert-tabs-lines" aria-selected="false">JSON LINES</a>
+                  <a class="nav-link text-info" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">JSON</a>
+                  <a class="nav-link text-info" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false">MYSQL</a>
+                  <a class="nav-link text-info" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false">MONGODB</a>
+                </div>
+              </div>
+              <div class="col-7 col-sm-9">
+                <div class="tab-content" id="vert-tabs-tabContent">
+                  <div class="tab-pane text-left fade show active" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+                    <a class="btn btn-secondary" href="{{ url_for('projects.addoperation', project_id=project.id) }}" title="click to perform deduping, merging and other operations before uploading">Additional Operations</a>
+                     <form method="POST" action="" enctype="multipart/form-data">
+                      {{ form.hidden_tag() }}
+                      <br / >
+                      <div class="card-body card-info card-outline">
+                          <div class="form-group files color">
+                            
+                            <!-- {{ form.filecsv(type="file", class="form-control", accept=".csv", required="true") }} -->
+                            <input type="file" name="filecsv" class="form-control" accept=".csv, .xlsx" required>
+                            <div class="invalid-feedback">
+                                  <strong><font size="2">Please choose a file.</font></strong>
+                            </div>
+                            {% if form.filecsv.errors %}
+                              {% for error in form.filecsv.errors %}
+                                <span class="text-danger"><b>{{ error }}</b></span>
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                          {{ form.submit(class="btn btn-info col-md-12") }}
+                      </div>
+                      </form>      
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-lines" role="tabpanel" aria-labelledby="vert-tabs-lines-tab">
+                     Coming Soon!!!
+                  </div>
+
+                   <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+                     Coming Soon!!!
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                      {{ mysqlconnect.hidden_tag() }}
+                      <div class="card-body card-info card-outline col-md-9">
+                          <label>Server</label><br />
+                          <input class="form-group col-md-6 mb-2" type="text" name="hostname", title="Hostname", placeholder="Server Name" required>
+                          <br />
+                          <label>Port</label><br />
+                          <input class="form-group col-md-6 mb-2" type="text" name="port", title="Port" value="3306">
+                          <br />
+                          <label>Databasename</label><br />
+                          <input class="form-group col-md-6 mb-3" type="text" name="databasename", title="Databasename" placeholder="Databasename" required>
+                          <hr />
+                          <h6 class="text-muted mb-3"><b>Provide credentials to sign in to your account</b></h6>
+                          <label>Username</label><br />
+                          <input class="form-group col-md-3 mb-2" type="text" name="Username", title="Username" placeholder="Username Database" required>
+                          <br />
+                          <label>Password</label><br />
+                          <input class="form-group col-md-3 mb-4" type="text" name="Password", title="Password" placeholder="Password Database">
+                          <br />
+                          {{ mysqlconnect.submit(class="btn btn-info col-md-2 mb-3") }}
+                      </div>
+                    </form>
+                  </div>
+                  <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+                     Coming Soon!!! 
+                  </div>
+                </div>
+              </div>
+            </div>
+  <!-- end navpill -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </section>
+
+      
+   <div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+      </div>
+    </div>
+<!-- end-->
+  </div>
+</div>
+
+{% endblock content %}

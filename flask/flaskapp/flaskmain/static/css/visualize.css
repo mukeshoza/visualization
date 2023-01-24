@@ -1,0 +1,303 @@
+.div1{
+	width: 20%;
+	height: 120px;
+	background-color: rgba(240, 240, 240, 0.7);
+	border-radius: 4px;
+	font-size: 15px;
+	color: #020f30;
+	padding: 1%;
+	margin: 0.5%;
+	border-style: solid;
+	border-color: rgba(59, 2, 2, 0.2);
+}
+
+.div2{
+	width: 78.5%;
+	height: 120px;
+	background-color: rgba(240, 240, 240,0.7);
+	font-size: 18px;
+	padding: 1%;
+	color: #020f30;
+	border-radius: 4px;
+	margin-left: 21%;
+	margin-top: -8.4%;
+	float: left;
+	border-style: solid;
+	border-color: rgba(59, 2, 2, 0.2);
+}
+
+.div3{
+	width: 20%;
+	height: 600px;
+	background-color: rgba(240, 240, 240,0.7);
+	border-radius: 4px;
+	padding: 1%;
+	margin: 0.5%;
+	border-style: solid;
+	border-color: rgba(59, 2, 2, 0.2);
+}
+
+.div4{
+	width: 78.5%;
+	/*height: 600px;*/
+	background-color: rgba(240, 240, 240,0.7);
+	/*box-shadow: 0px 0px 8px grey;*/
+	padding: 1%;
+	color: #020f30;
+	border-radius: 4px;
+	margin-left: 21%;
+	margin-top: -40.2%;
+	float: left;
+	border-style: solid;
+	border-color: rgba(59, 2, 2, 0.2);
+}
+
+.div5{
+	width: 99%;
+	height: 230px;
+	background-color: rgba(240, 240, 240,0.7);
+	/*box-shadow: 0px 0px 8px grey;*/
+	padding: 1%;
+	color: #020f30;
+	border-radius: 4px;
+	margin-left: 0.5%;
+	margin-top: 0.5%;
+	float: left;
+	border-style: solid;
+	border-color: rgba(59, 2, 2, 0.2);
+	margin-bottom: 3%;
+}
+
+
+@media only screen and (max-width: 500px) {
+.div1 {
+   	width: 30%;
+	height: 130px;
+	background-color: rgba(240, 240, 240, 0.7);
+	border-radius: 4px;
+	color: #020f30;
+	margin: 0.5%;
+	margin-left: 4%;
+	font-size: 5px;
+	color:black;
+	border-style: solid;
+	border-color: rgba(59, 2, 2, 0.2);
+  }
+}
+
+
+@media only screen and (max-width: 500px) {
+.div2 {
+    width: 60%;
+	height: 130px;
+	background-color: rgba(240, 240, 240,0.7);
+	padding: 1%;
+	color: #020f30;
+	border-radius: 4px;
+	margin-left: 34.5%;
+	margin-top: -38%;
+	font-size: 10px;
+	float: left;
+	border-style: solid;
+	border-color: rgba(59, 2, 2, 0.2);
+  }
+}
+
+
+@media only screen and (max-width: 500px) {
+.div3 {
+    width:89%;
+    margin-left: 5%;
+    margin-top:0%;
+    /*background-color: rgba(54, 54, 54,0.2);*/
+    /*position: absolute;*/
+  }
+}
+
+@media only screen and (max-width: 500px) {
+.div4 {
+    width:89%;
+    margin-top: 0%;
+    margin-left: 5%;
+    /*background-color: rgba(54, 54, 54,0.2);*/
+  }
+}
+
+
+@media only screen and (max-width: 500px) {
+.div5 {
+    width:89%;
+    margin-top: 0%;
+    margin-left: 5%
+    /*background-color: rgba(54, 54, 54,0.2);*/
+  }
+}
+
+.divside{
+	width: 7%;
+	background-color: rgba(1, 29, 46, 1);
+	height: 120%;
+	position: fixed;
+	float: left
+	box-shadow: 8px 8px 12px grey;
+	z-index: 99999;
+	padding: 0.1%;
+	margin-top: -8%;
+}
+
+@media only screen and (max-width: 800px) {
+.divside {
+    width:10%;
+  }
+}
+
+.divdash{
+	width: 90%;
+	height: 330px;
+	margin-left: 7.5%;
+	background-color: rgba(22, 50, 79,0.9);
+	margin-top: 1%;
+	box-shadow: 8px 8px 10px grey;
+	padding: 3%;
+	border-radius: 4px;
+}
+
+.navright{
+	float: right;
+	margin-right: 6%;
+}
+
+@media only screen and (max-width: 800px) {
+.navright {
+    margin-left: 9%;
+  }
+}
+
+.divinfobox{
+	width: 16%;
+	height: 120px;
+	box-shadow: 0px 0px 12px grey;
+	padding: 1%;
+	margin-top: -12%;
+	border-radius: 4px;
+	/*float: left;*/
+	background-color: white;
+}
+
+.divinfobox1{
+	width: 16%;
+	height: 120px;
+	box-shadow: 0px 0px 12px grey;
+	padding: 1%;
+	margin-top: -6.3%;
+	border-radius: 4px;
+	/*float: left;*/
+	background-color: white;
+}
+
+.divinfobox2{
+	width: 16%;
+	height: 120px;
+	box-shadow: 0px 0px 12px grey;
+	padding: 1%;
+	margin-top: -6.3%;
+	border-radius: 4px;
+	/*float: left;*/
+	background-color: white;
+}
+
+@media only screen and (max-width: 800px) {
+.divinfobox {
+	width: 20%;
+	margin-top: -45%;
+	border-radius: 4px;
+	font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+.divinfobox1 {
+	width: 20%;
+	margin-top: -25%;
+	border-radius: 4px;
+	font-size: 10px;
+  }
+}
+@media only screen and (max-width: 800px) {
+.divinfobox2 {
+	width: 20%;
+	margin-top: -25%;
+	border-radius: 4px;
+	font-size: 10px;
+  }
+}
+
+.divprojects{
+	width: 70%;
+	height: 700px;
+	border-radius: 4px;
+	background-color: white;
+	box-shadow: 3px 3px 8px 0px grey;
+	margin-top: 2%;
+	margin-left: 15%;
+	margin-bottom: 5%;
+	overflow-y: scroll;
+}
+
+@media only screen and (max-width: 800px) {
+.divprojects {
+	margin-top: 7%;
+	margin-left: 20%;
+}
+
+.divreview{
+}
+
+@media only screen and (max-width: 800px) {
+.divreview {
+	margin-top: 7%;
+	margin-left: 20%;
+}
+
+@media only screen and (max-width: 800px) {
+.card {
+	width: 20% !important;
+	margin-top: -25% !important;
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>

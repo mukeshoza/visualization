@@ -1,0 +1,86 @@
+{% extends "layouts/projectlayout.html" %}
+{% block content %}
+
+ <h4 class="text-success text-center" style="margin-top: -1%;"><b>{{ project.pname }}</b></h4>
+    <br />
+    {% if project.pstatus == 'Cancelled' %}
+        <center><div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -3%; margin-right: 45%;">
+          <center><font size='1'><strong><i class="fas fa-redo-alt"></i> {{ project.pstatus }}</strong></font></center>
+        </div></center>
+    {% endif %}
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+	  <div class="container-fluid">
+	    <div class="row mb-1">
+	      <div class="col-sm-6">
+	        <h1 class="m-0 text-dark">Additional Operations</h1>
+	      </div><!-- /.col -->
+	      <div class="col-sm-6">
+	        <ol class="breadcrumb float-sm-right">
+	          <li class="breadcrumb-item"><a href="{{ url_for('projects.visualization', project_id=project.id) }}">Data Source</a></li>
+	          <li class="breadcrumb-item active">Additional Operations</li>
+	        </ol>
+	      </div><!-- /.col -->
+	    </div><!-- /.row -->
+	  </div><!-- /.container-fluid -->
+	</div>
+<section class="content">
+	<center>
+		<div class="btn-group btn-group-toggle">
+	    <font size="1">
+	    <button type="button" class="btn btn-secondary btn-sm active dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown" title="Remove Duplicates"><i class="fas fa-eraser mr-2"></i> Remove Duplicates </button>
+          	<div class="dropdown-menu" role="menu">
+	          	<!-- <a class="dropdown-item" href="{{ url_for('projects.bylines', project_id=project.id) }}">By Lines</a> -->
+	          	<a class="dropdown-item" href="#">By Lines</a>
+	            <a class="dropdown-item" href="#">By One Column Name</a>
+	            <a class="dropdown-item" href="#">By Multiple Column Name</a>
+          </div>
+	  
+	    <a href="#" class="btn btn-secondary btn-sm" title="Merge CSV Files"><i class="fa fa-compress mr-2"></i> Merge Files</a>
+	    <a href="#" class="btn btn-secondary btn-sm" title="Split CSV Files"><i class="fa fa-columns mr-2"></i> Split Files</a>
+	     <a href="#" class="btn btn-secondary btn-sm" title="Replace Values in CSV Files"><i class="fas fa-exchange-alt mr-2"></i> Regex Replace</a>
+	    <a href="#" class="btn btn-info btn-sm" title="Need Help ?"><i class="fa fa-info-circle mr-2"></i> Help</a></font>
+		  <font size="4" class="ml-5 mt-1">
+          <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+          <a href="#">
+            <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+          </a></font>
+          <a class="float" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+         	<i class="fa fa-envelope fa-2x my-float text-light" aria-hidden="true" title="Support"></i>
+          </a>
+	  </div></center>
+	  <div class="card card-info card-outline">
+	  	<div class="card-body mt-2"><center><h4>Coming Soon !!!</h4></center>
+
+	  	</div>
+	  </div>
+</section>
+
+
+<div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+      </div>
+    </div>
+<!-- end-->
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,99 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+
+         <div class="mt-4 mb-1 content">
+
+                <h3 class="card-title project-name text-center mb-4">
+                    Recent Project List
+                </h3>
+                        <!-- /.card-header -->
+            {% for project in projects %}
+              <div class="card-body">
+                <div class="callout callout-info rounded">
+                  {% if adminval.admincheck == 'Yes' or adminval.admincheck == 'Super' %}
+                    <a href="{{ url_for('users.user_projects', username=project.user.username) }}" style="text-decoration: none;" class="text-success"><h6>{{ project.user.username }}</h6></a>
+                  {% endif %}
+                  <a href="{{ url_for('projects.visualization', project_id=project.id) }}" style="text-decoration: none;"><h5>{{ project.pname }}</h5>
+
+                  <p>{{ project.ptype }}</p>
+                </a>
+                {% if project.pstatus == 'In Review' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-info" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% elif project.pstatus == 'In Progress' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-warning" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-spinner"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% elif project.pstatus == 'Completed' %}
+                  <div class="d-flex justify-content-end p-1 badge badge-success" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-th-list"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% else %}
+                  <div class="d-flex justify-content-end p-1 badge badge-danger" style="border-radius: 4px; float: right; margin-top: -4%;">
+                    <center><font size='2'><strong><i class="fas fa-window-close"></i> {{ project.pstatus }}</strong></font></center>
+                  </div>
+                {% endif %}   
+                   <p class="created-on mr-2">Created On: {{ project.date_posted.strftime('%B %d %Y, %I:%M %p') }}</p>
+                </div>
+
+              </div>
+            {% endfor %}
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+<!-- -->
+
+          </div>
+        </div>
+  </section>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: {{ monthproject|safe }},
+        datasets: [{
+            label: 'Monthly Project Count',
+            backgroundColor: 'rgba(0, 200, 214, 0.5)',
+            borderColor: 'rgba(3, 155, 166, 0.9)',
+            data: {{ monthcount|safe }}
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+</script>
+
+<script type="text/javascript">
+  var ctx = document.getElementById('myChart1').getContext('2d');
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: {{ monthproject|safe }},
+        datasets: [{
+            label: 'Monthly Amount Spent',
+            backgroundColor: 'rgba(163, 0, 25, 0.5)',
+            borderColor: 'rgba(222, 4, 4, 0.9)',
+            data: {{ amountfinal|safe }}
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+</script>
+
+
+{% endblock content %}

@@ -1,0 +1,381 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <style type="text/css">
+      .highcharts-series rect {
+      transition:all .3s ease;
+    }
+    </style>
+
+    <script type="text/javascript">
+      function show(aval) {    
+        if (aval == "Bar Graph with Line") {//if 1 then show it
+          optionyes.style.visibility='visible';
+          optionyes.style.display='block';
+          Form.fileURL.focus();
+        } 
+        else {//for everything else hide it
+          optionyes.style.visibility='hidden';
+          optionyes.style.display='none';
+          }    
+      }
+    </script>
+
+    <h4 class="text-success text-center"><b>{{ project.pname }}</b></h4>
+    <br />
+    <section class="content">
+       <div style="margin-left: 85%; margin-top: -1.5%;">
+        <font size="4">
+        <a href="{{ url_for('projects.project_update', project_id=project.id) }}"><i class="fas fa-edit text-secondary" aria-hidden="true" title="Edit Project"></i></a> &nbsp;&nbsp;
+        <a href="#">
+          <i class="fas fa-trash-alt text-danger" aria-hidden="true" title="Delete Project" data-toggle="modal" data-target="#dataspoint_modal"></i>
+        </a></font>
+      </div>
+    <center><div class="btn-group btn-group-toggle">
+      <font size="1"><a href="{{ url_for('projects.visualization', project_id=project.id) }}" class="btn btn-light" title="New Visualization"><i class="fa fa-upload mr-2"></i> New Visualization</a>
+      <a href="{{ url_for('projects.createvisualization', project_id=project.id) }}" class="btn btn-light active" title="Create Visualization"><i class="fas fa-chart-line"></i> Create Visualization</a>
+      <a href="{{ url_for('projects.view_visualization', project_id=project.id) }}" class="btn btn-light" title="View Visualization"><i class="fa fa-eye mr-2"></i> View Visualization</a>
+      <a href="{{ url_for('projects.dataset', project_id=project.id) }}" class="btn btn-light" title="Dataset"><i class="fa fa-table mr-2"></i> Dataset</a>
+      <a href="{{ url_for('projects.projectdetail', project_id=project.id) }}" class="btn btn-light" title="Support"><i class="fa fa-comments mr-2"></i> Support</a></font>
+    </div></center>
+      <div class="card-info card-outline">
+          <div class="card-body"></div>
+          <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-info card-outline">
+              <div class="card-body" style="height: 730px;">
+              <h4 class="text-success">Configure Visualization</h4>
+              <hr />
+                <form method="POST">
+                    {{ formfile.hidden_tag() }}
+                   <label>Choose file to visualize</label>
+                   <select onchange="this.form.submit()" class="form-control mb-2" name="selectfile" required style="cursor: pointer;">
+                    <option value='select'>Choose file name to visualize</option>
+                    {% for val in (sub) %}
+                      <option value="{{ val }}">{{ val }}</option>
+                    {% endfor %}
+                  </select>
+                </form>
+              <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <label>Selected File</label>
+                <input class="form-control mb-2" type="text" value="{{ selectvalue }}" id="selectd_value" readonly="True" name="gmuted">
+
+                <label>Title of Visualization</label>
+                {{ form.gtitle(class="form-control mb-2", placeholder="Title for Your Visualization", id="title") }}
+
+                <label>Graph Type</label>
+                <select class="form-control mb-2" name="gtype" onchange="java_script_:show(this.options[this.selectedIndex].value)" required style="cursor: pointer;">
+                  <option selected disabled>Choose Graph Type...</option>
+                  <option value="Bar Graph">Bar Graph</option>
+                  <option value="Bar Graph with Line">Bar Graph with Line</option>
+                  <option value="Pie Chart">Pie Chart</option>
+                  <option value="Line Plot">Line Plot</option>
+                  <option value="Scatter Plot">Scatter Plot</option>
+                  <option value="Heatmap">Heatmap</option>
+                </select>
+
+                <label>Column Name</label>
+                <select class="form-control mb-2" name="gcolumn" required style="cursor: pointer;">
+                  <option selected disabled>Select Column Name</option>
+                  {% for col in (columns) %}
+                    <option value="{{ col }}">{{ col }}</option>
+                  {% endfor %}
+                </select>
+
+               <div id="optionyes" style="visibility:hidden" >
+                <label>Column Name For Line</label>
+                <select class="form-control mb-2" name="gcolumnline">
+                  <option selected disabled>Select Column Name</option>
+                   {% for col in (columns) %}
+                    <option value="{{ col }}">{{ col }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <hr>
+              <label>Save Report</label>
+                <input class="form-control mb-4" type="text" name="savegraph" placeholder="Name to save your file (Optional Field)", title="Please provide name of your report">
+                      
+                {{ form.submit(class="btn btn-info col-md-12 mb-1") }}
+              </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+           
+          </div>
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card">
+               <div class="card card-info card-outline"></div>
+              <div class="card-header p-2">
+                <h4 class="text-success">Visualization Section</h4>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-tools" style="float: right;">
+                    <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
+                    </button>
+                  </div>
+                  {% if selectvalue == None %}
+                    <center><img src="{{ url_for('static', filename= 'images/myimage.png') }}" width="680" height="565"></center>
+                  {% else %}
+                    <center><figure class="highcharts-figure">
+                      <div id="container" style="width: 100%; height: 525px; overflow: scroll;"></div>
+                      <p class="highcharts-description"></p>
+                    </figure></center>
+                  {% endif %}
+                </div>
+              </div>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+      </div>
+    </section>
+
+  </div>
+</div>
+
+
+<div class="modal fade" id="dataspoint_modal" tabindex="-1" role="dialog" aria-labelledby="dataspoint_modal_labelled" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dataspoint_modal_labelled">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You really want to delete <b>{{ project.pname }}</b> project!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+          <input class="btn btn-danger" type="submit" name="Delete">
+        </form>
+      </div>
+    </div>
+    </div>
+      </div>
+    </div>
+<!-- end-->
+  </div>
+</div>
+
+{% if gtype == 'Bar Graph' %}
+  <script>
+    Highcharts.chart('container', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: '{{ gtitle }}'
+      },
+      subtitle: {
+          text: 'Bar Graph Distribution - ' + '{{ selectvalue|safe }}'
+      },
+      xAxis: {
+          categories: {{ catg|safe }}
+          
+      },
+
+       plotOptions: {
+        series: {
+            colorByPoint: true
+        },
+        column: {
+          dataLabels: {
+              enabled: true,
+              cursor: 'pointer',
+          }
+       }
+      },
+      
+      legend: {
+          enabled: true,
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'top',
+          x: -20,
+          y: 42,
+          floating: true,
+          borderWidth: 1,
+          backgroundColor:
+              Highcharts.defaultOptions.legend.backgroundColor || '#fff2f2',
+          shadow: true
+      },
+      credits: {
+          enabled: false
+      },
+      exporting: {
+            enabled: true
+        },
+      series: [{
+          name: '{{ gcolumn }}',
+          threshold: 0,
+          data: {{ value }}
+
+      }]
+  });
+  </script>
+
+  <script type="text/javascript">
+    $(document).on('click', '.highcharts-tracker rect', function() {
+    $('.highcharts-tracker rect').css('opacity', 0.5);
+    $(this).css('opacity', 1);
+  </script>
+
+{% elif gtype == 'Pie Chart' %}
+  <script type="text/javascript">
+      Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: '{{ gtitle }}'
+        },
+         subtitle: {
+         text: 'Pie Chart Distribution - ' + '{{ selectvalue|safe }}'
+      },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        credits: {
+          enabled: false
+        },
+        series: [{
+            name: '{{ gcolumn }}',
+            colorByPoint: true,
+            data: [{{comval|safe}}]
+        }]
+    });
+  </script>
+
+{% elif gtype == 'Bar Graph with Line' %}
+<script type="text/javascript">
+  Highcharts.chart('container', {
+    chart: {
+        zoomType: 'xy'
+    },
+    title: {
+        text: '{{ gtitle }}'
+    },
+    subtitle: {
+        text: 'Bar Chart with Line - ' + '{{ selectvalue|safe }}'
+    },
+    xAxis: [{
+        categories: {{ fieldsline|safe }},
+        crosshair: true
+    }],
+
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value}',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        title: {
+            text: '{{ gcolumn }}',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        }
+    }, { // Secondary yAxis
+        title: {
+            text: '{{ gcolumnline }}',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        labels: {
+            format: '{value}',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        opposite: true
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        x: -80,
+        verticalAlign: 'top',
+        y: 15,
+        floating: true,
+        backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || // theme
+            '#fff2f2'
+    },
+    credits: {
+          enabled: false
+        },
+
+    plotOptions: {
+        series: {
+            colorByPoint: true
+        },
+        column: {
+          dataLabels: {
+              enabled: false,
+              
+          }
+       }
+      },
+
+    series: [{
+        name: '{{ gcolumn }}',
+        type: 'column',
+        yAxis: 1,
+        data: {{ countmain }},
+        tooltip: {
+            valueSuffix: ''
+        }
+
+    }, {
+        name: '{{ gcolumnline }}',
+        type: 'spline',
+        data: {{ graphline }},
+        tooltip: {
+            valueSuffix: ''
+        }
+    }]
+});
+</script>
+
+{% endif %}
+
+{% endblock content %}
